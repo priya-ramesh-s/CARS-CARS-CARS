@@ -26,5 +26,4 @@ public class Car2 {
     public String getId() { return this.id; }
     public boolean getAvailable() { return this.available; }
     public BigDecimal getRentPrice() { return this.rentPrice; }
-
 }
