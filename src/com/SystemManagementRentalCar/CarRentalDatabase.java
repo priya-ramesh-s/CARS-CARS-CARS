@@ -10,7 +10,7 @@ public class CarRentalDatabase {
     private int ID;
     private Customer customer;
     private Car2 car;   //implement car class
-    private long RentTime, ReturnTime; //stores system time
+    private long RentTime, ReturnTime; //stores system time - change to date
 
 
     public void Booking() {
