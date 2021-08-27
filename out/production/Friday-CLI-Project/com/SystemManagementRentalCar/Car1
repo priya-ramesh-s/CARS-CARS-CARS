@@ -27,7 +27,7 @@ public class Car1 {
     public boolean getAvailable() { return this.available; }
     public BigDecimal getRentPrice() { return this.rentPrice; }
 
-    
+
 
 
 
