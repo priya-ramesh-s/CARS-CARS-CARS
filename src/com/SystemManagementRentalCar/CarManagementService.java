@@ -39,8 +39,13 @@ public class CarManagementService {
 //    }
 
     public void closeDatabase() {
-        this.availableDatabase.saveData(this.filepath_available);
-        this.rentedDatabase.saveData(this.filepath_rented);
+        try {
+            this.availableDatabase.saveData(this.filepath_available);
+            this.rentedDatabase.saveData(this.filepath_rented);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     public void addNewCar(String model, String make, int rentPrice, String regNum) {

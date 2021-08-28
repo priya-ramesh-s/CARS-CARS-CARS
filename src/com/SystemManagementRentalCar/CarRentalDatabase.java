@@ -74,21 +74,19 @@ public class CarRentalDatabase {
 //        printWriter.close();
 //    }
 
-    public void saveData(String filepath) {
-        try {
-            FileOutputStream fileOut = new FileOutputStream(filepath);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+    public void saveData(String filepath) throws IOException{
+
+        FileOutputStream fileOut = new FileOutputStream(filepath);
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
 //            for (Car2 car : this.cars) {
 //                out.writeObject(car);
 //            }
-            Car2 car = this.cars.get(0);
-            out.writeObject(car);
-            out.close();
-            fileOut.close();
-            System.out.println("Data has been saved");
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
+        Car2 car = this.cars.get(0);
+        out.writeObject(car);
+//        out.close();
+//        fileOut.close();
+        System.out.println("Data has been saved");
+
     }
 
 //    public void loadData(String filepath) {
