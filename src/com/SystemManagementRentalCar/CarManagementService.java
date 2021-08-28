@@ -3,7 +3,7 @@ package com.SystemManagementRentalCar;
 public class CarManagementService {
     private CarRentalDatabase availableDatabase;
     private CarRentalDatabase rentedDatabase;
-    private int dailyRentPrice;
+
 
     // constructor
     public CarManagementService() {
@@ -12,10 +12,6 @@ public class CarManagementService {
     }
 
     // methods
-
-    public void setDailyRentPrice(int dailyRentPrice) {
-        this.dailyRentPrice = dailyRentPrice;
-    }
 
     public void addNewCar(String model, String make, int rentPrice, String regNum) {
         this.availableDatabase.addNewCars(model, make, rentPrice, regNum);
@@ -36,6 +32,8 @@ public class CarManagementService {
     public void booking(String make, String model) {
         Car2 rentCar = availableDatabase.remove(make, model);
         rentedDatabase.add(rentCar);
+        System.out.println("You have successfully booked a " + rentCar.getCarMake() + " " + rentCar.getCarModel() + " with registration number: " + rentCar.getRegNum());
+        System.out.println("This will cost you " + rentCar.getRentPrice() + " per day");
     }
 
     public void returnCar(String regNum) {

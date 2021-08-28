@@ -40,6 +40,7 @@ public class Main {
             String carModel = userInput.nextLine();
             mybs.booking(carMake, carModel);
 
+
             System.out.println("Available cars left now one has been rented");
             mybs.displayAvailableCars();
             System.out.println("Rented Cars");
