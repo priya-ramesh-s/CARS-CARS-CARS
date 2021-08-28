@@ -1,17 +1,42 @@
 package com.SystemManagementRentalCar;
 
+import java.io.File;
+import java.io.IOException;
+
 public class CarManagementService {
     private CarRentalDatabase availableDatabase;
     private CarRentalDatabase rentedDatabase;
+    private String filepath_available;
+    private String filepath_rented;
 
 
     // constructor
     public CarManagementService() {
         this.availableDatabase = new CarRentalDatabase();
         this.rentedDatabase = new CarRentalDatabase();
+        this.filepath_available = "C:/Users/Sanchayata/Documents/available_cars.txt";  // enter filepath where you would like available cars info to be stored
+        this.filepath_rented = "C:/Users/Sanchayata/Documents/rented_cars.txt";     // enter filepath where you would like rented cars info to be stored
     }
 
     // methods
+
+    public void openDatabase() {
+        this.availableDatabase.loadData(this.filepath_available);
+        this.rentedDatabase.loadData(this.filepath_rented);
+    }
+
+    public void closeDatabase() {
+        try {
+            this.availableDatabase.saveData(this.filepath_available);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            this.rentedDatabase.saveData(this.filepath_rented);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void addNewCar(String model, String make, int rentPrice, String regNum) {
         this.availableDatabase.addNewCars(model, make, rentPrice, regNum);

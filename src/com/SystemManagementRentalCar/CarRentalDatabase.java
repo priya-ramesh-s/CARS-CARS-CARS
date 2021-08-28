@@ -1,6 +1,11 @@
 package com.SystemManagementRentalCar;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.math.BigDecimal;
 
 public class CarRentalDatabase {
@@ -53,6 +58,30 @@ public class CarRentalDatabase {
     public void add(Car2 car) {
         //adds car to arraylist of cars
         this.cars.add(car);
+    }
+
+    public void saveData( String filepath) throws IOException {
+        File file = new File(filepath);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        FileWriter fileWriter = new FileWriter(file);
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        //printWriter.println("Make " + "Model " + "Registration Number " + "Daily Rent Price");
+        for (Car2 car : this.cars) {
+            printWriter.println(car.getCarMake() + " " + car.getCarModel() + " " + car.getRegNum() + " " + car.getRentPrice());
+        }
+
+
+        printWriter.flush();
+        printWriter.close();
+    }
+
+    public void loadData(String filepath) {
+        Scanner read = new Scanner(filepath);
+        while (read.hasNext()) {
+            System.out.println(read.nextLine());
+        }
     }
 }
 
