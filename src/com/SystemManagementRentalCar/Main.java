@@ -1,40 +1,60 @@
 package com.SystemManagementRentalCar;
 
+import java.util.Scanner;
+
 public class Main {
+
     public static void main(String[] args) {
-        //CarManagementService management = new CarManagementService(); //create object
-        //ask if customer or part of customer management team
+        // populate cars
+        CarManagementService mybs = new CarManagementService();
+        Scanner userInput = new Scanner(System.in);
 
-        /*customer management team:
-         switch statement:
-         1. display available cars
-         boolean available = true;
-         management.displayAvailableCars();
-         2. display rented cars
-         management.displayRentedCars();
-         3. Add returned car -> add returned cars back to available car database and remove from rented car database
-         4. Add Rented Car -> remove rented car from available car database and add it to rented car database
-         5. Add new car to rental shop -> adds new car to inventory and available
-        */
+//        switch() {
+//
+//        }
+        //put in while loop
 
-        /*Customer:
-        Customer customer1 = new Customer("Jane",......);
-          switch statement:
-          1. do you want to book a car?
-          management.displayAvailableCars();
-          Q: Enter the id number of the car you want to book from this selection or press n if you don't want to book anymore?
-          => store answer in String chosenCarId
-          boolean carAvailable = management.removeAvailableCar(chosenCarId);
-          if (carAvailable) {
-            management.addRentedCar(chosenCarId, customer1.getName, customer1.getDateOfBirth, customer1.getLicenseReg);
-            customer1.bookCar(chosenCar);[
-          } else {
-            ("Please Enter the correct car ID");
-          }
+        boolean addNewCar = true;
+        while(addNewCar) {
+            System.out.println("Do you want to add a new car (y/n)");
+            String input = userInput.nextLine();
+            if (input.equals("y")) {
+                String carModel = "Fiat";
+                String carMake = "500";
+                int rentPrice = 100;
+                System.out.println("Enter car registration number");
+                String regNum = userInput.nextLine();
+                mybs.addNewCar(carModel, carMake, rentPrice, regNum);
+            } else {
+                addNewCar = false;
+            }
+        }
 
-          2. do you want to return a car?
+        mybs.displayAvailableCars();
+        System.out.println("Do you want to rent a car? (y/n)");
+        String rentCar = userInput.nextLine();
+        if (rentCar.equals("y")) {
+            System.out.println("Enter the make of the car you would like");
+            String carMake = userInput.nextLine();
+            System.out.println("Enter the model of the car you would like");
+            String carModel = userInput.nextLine();
+            mybs.booking(carMake, carModel);
 
-        */
+            System.out.println("Available cars left now one has been rented");
+            mybs.displayAvailableCars();
+            System.out.println("Rented Cars");
+            mybs.displayRentedCars();
+        }
+
+        //return car
+        System.out.println("Enter the registration number of the car you would like to return");
+        String regNum = userInput.nextLine();
+        mybs.returnCar(regNum);
+
+        System.out.println("Available cars left now one has been RETURNED");
+        mybs.displayAvailableCars();
+        System.out.println("Rented Cars now one has been removed");
+        mybs.displayRentedCars();
 
     }
 }

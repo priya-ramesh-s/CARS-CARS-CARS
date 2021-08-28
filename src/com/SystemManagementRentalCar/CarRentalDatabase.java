@@ -25,10 +25,23 @@ public class CarRentalDatabase {
     }
 
     public Car2 remove(String make, String model) {
-        //removes car from arraylist of cars
+        // if you are removing an available car to be rented
         Car2 removedCar = null;
         for (Car2 car : cars) {
             if (car.getCarMake().equals(make) && car.getCarModel().equals(model)) {
+                removedCar = car;
+                this.cars.remove(car);
+                break;
+            }
+        }
+        return removedCar;
+    }
+
+    public Car2 remove(String regNum){
+        // if you are returning a rented car to be placed back in available
+        Car2 removedCar = null;
+        for (Car2 car : cars) {
+            if (car.getRegNum().equals(regNum)) {
                 removedCar = car;
                 this.cars.remove(car);
                 break;
