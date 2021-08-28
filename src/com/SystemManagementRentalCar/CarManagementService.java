@@ -39,5 +39,6 @@ public class CarManagementService {
     public void returnCar(String regNum) {
         Car2 availableCar = rentedDatabase.remove(regNum);
         availableDatabase.add(availableCar);
+        System.out.println("You have successfully returned the car. Thank you, we hope to see you again soon!");
     }
 }
