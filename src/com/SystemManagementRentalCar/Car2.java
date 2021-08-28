@@ -1,19 +1,19 @@
 package com.SystemManagementRentalCar;
 
-import java.math.BigDecimal;
-
 public class Car2 {
-    private String carBrand;
+    private String carMake;  //fiat
+    private String carModel;  //500
     private boolean available;
-    private BigDecimal rentPrice;
-    private String id;
+    private int rentPrice;
+    private String regNum;
 
     // Constructor
-    public Car2(String name, BigDecimal rentPrice, String id) {
-        this.carBrand = name;
+    public Car2(String carMake, String carModel, int rentPrice, String regNum) {
+        this.carMake = carMake;
+        this.carModel = carModel;
         this.available = true;
         this.rentPrice = rentPrice;
-        this.id = id;
+        this.regNum = regNum;
     }
 
     // Setter Method
@@ -22,8 +22,24 @@ public class Car2 {
     }
 
     // Getter Methods
-    public String getCarBrand() { return this.carBrand; }
-    public String getId() { return this.id; }
-    public boolean getAvailable() { return this.available; }
-    public BigDecimal getRentPrice() { return this.rentPrice; }
+    public String getCarMake() {
+        return this.carMake;
+    }
+
+    public String getCarModel() {
+        return this.carModel;
+    }
+
+    public String getRegNum() {
+        return this.regNum;
+    }
+
+    public boolean getAvailable() {
+        return this.available;
+    }
+
+    public int getRentPrice() {
+        return this.rentPrice;
+    }
+
 }

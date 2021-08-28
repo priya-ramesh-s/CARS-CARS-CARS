@@ -1,30 +1,39 @@
 package com.SystemManagementRentalCar;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
-
 public class CarManagementService {
-    private BigDecimal dailyRentPrice;
-    private CarRentalDatabase carsDatabase;
+    private CarRentalDatabase availableDatabase;
+    private CarRentalDatabase rentedDatabase;
 
     // constructor
-    public CarManagementService(BigDecimal rentFee) {
-        this.dailyRentPrice = rentFee;
-        this.carsDatabase = new CarRentalDatabase();
+    public CarManagementService() {
+        this.availableDatabase = new CarRentalDatabase();
+        this.rentedDatabase = new CarRentalDatabase();
     }
 
     // methods
-    public void displayAvailableCars(LocalDate startDate, LocalDate endDate) {
+    public void addNewCar(String model, String make, int rentPrice, String regNum) {
+        this.availableDatabase.addNewCars(model, make, rentPrice, regNum);
+    }
 
+    public void displayAvailableCars() {
+        for (Car2 availableCar : this.availableDatabase.getCars()) {
+            System.out.println(availableCar.getCarMake() + " " + availableCar.getCarModel());
+        }
     }
 
     public void displayRentedCars() {
-        //this.carsDatabase
+        for (Car2 rentedCar : this.rentedDatabase.getCars()) {
+            System.out.println(rentedCar.getCarMake() + " " + rentedCar.getCarModel());
+        }
     }
 
-    public void removeRentedCar() {
-        //this.carsDatabase
+    public void booking(String make, String model) {
+        Car2 rentCar = availableDatabase.remove(make, model);
+        rentedDatabase.add(rentCar);
     }
 
+    public void returnCar(String make, String model) {
+        Car2 availableCar = rentedDatabase.remove(make, model);
+        availableDatabase.add(availableCar);
+    }
 }
