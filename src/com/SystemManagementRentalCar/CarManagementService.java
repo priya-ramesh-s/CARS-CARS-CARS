@@ -20,22 +20,27 @@ public class CarManagementService {
 
     // methods
 
-    public void openDatabase() {
-        this.availableDatabase.loadData(this.filepath_available);
-        this.rentedDatabase.loadData(this.filepath_rented);
-    }
+//    public void openDatabase() {
+//        this.availableDatabase.loadData(this.filepath_available);
+//        this.rentedDatabase.loadData(this.filepath_rented);
+//    }
+
+//    public void closeDatabase() {
+//        try {
+//            this.availableDatabase.saveData(this.filepath_available);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            this.rentedDatabase.saveData(this.filepath_rented);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void closeDatabase() {
-        try {
-            this.availableDatabase.saveData(this.filepath_available);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            this.rentedDatabase.saveData(this.filepath_rented);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.availableDatabase.saveData(this.filepath_available);
+        this.rentedDatabase.saveData(this.filepath_rented);
     }
 
     public void addNewCar(String model, String make, int rentPrice, String regNum) {

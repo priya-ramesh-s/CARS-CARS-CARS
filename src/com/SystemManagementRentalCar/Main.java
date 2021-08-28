@@ -9,7 +9,7 @@ public class Main {
         // populate cars
         CarManagementService management = new CarManagementService();
         // openDatabase so program can continue from last session
-        management.openDatabase();
+        //management.openDatabase();
 
         Scanner userInput = new Scanner(System.in);
 

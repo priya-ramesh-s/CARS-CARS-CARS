@@ -1,9 +1,6 @@
 package com.SystemManagementRentalCar;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.math.BigDecimal;
@@ -60,28 +57,45 @@ public class CarRentalDatabase {
         this.cars.add(car);
     }
 
-    public void saveData( String filepath) throws IOException {
-        File file = new File(filepath);
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-        FileWriter fileWriter = new FileWriter(file);
-        PrintWriter printWriter = new PrintWriter(fileWriter);
-        //printWriter.println("Make " + "Model " + "Registration Number " + "Daily Rent Price");
-        for (Car2 car : this.cars) {
-            printWriter.println(car.getCarMake() + " " + car.getCarModel() + " " + car.getRegNum() + " " + car.getRentPrice());
-        }
+//    public void saveData(String filepath) throws IOException {
+//        File file = new File(filepath);
+//        if (!file.exists()) {
+//            file.createNewFile();
+//        }
+//        FileWriter fileWriter = new FileWriter(file);
+//        PrintWriter printWriter = new PrintWriter(fileWriter);
+//        //printWriter.println("Make " + "Model " + "Registration Number " + "Daily Rent Price");
+//        for (Car2 car : this.cars) {
+//            printWriter.println(car.getCarMake() + " " + car.getCarModel() + " " + car.getRegNum() + " " + car.getRentPrice());
+//        }
+//
+//
+//        printWriter.flush();
+//        printWriter.close();
+//    }
 
-
-        printWriter.flush();
-        printWriter.close();
+    public void saveData(String filepath) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(filepath);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+//            for (Car2 car : this.cars) {
+//                out.writeObject(car);
+//            }
+            Car2 car = this.cars.get(0);
+            out.writeObject(car);
+            out.close();
+            fileOut.close();
+            System.out.println("Data has been saved");
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
     }
 
-    public void loadData(String filepath) {
-        Scanner read = new Scanner(filepath);
-        while (read.hasNext()) {
-            System.out.println(read.nextLine());
-        }
-    }
+//    public void loadData(String filepath) {
+//        Scanner read = new Scanner(filepath);
+//        while (read.hasNext()) {
+//            System.out.println(read.nextLine());
+//        }
+//    }
 }
 
