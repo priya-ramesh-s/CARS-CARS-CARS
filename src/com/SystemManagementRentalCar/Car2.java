@@ -7,6 +7,7 @@ public class Car2 implements Serializable {
     private String carModel;  //500
     private int rentPrice;
     private String regNum;
+    //private Customer tempOwner;
 
     // Constructor
     public Car2(String carMake, String carModel, int rentPrice, String regNum) {
@@ -15,6 +16,11 @@ public class Car2 implements Serializable {
         this.rentPrice = rentPrice;
         this.regNum = regNum;
     }
+
+    // Setter Methods
+//    public void setTempOwner(Customer tempOwner) {
+//        this.tempOwner = tempOwner;
+//    }
 
     // Getter Methods
     public String getCarMake() {

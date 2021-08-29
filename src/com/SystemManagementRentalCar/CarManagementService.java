@@ -1,6 +1,5 @@
 package com.SystemManagementRentalCar;
 
-import java.io.File;
 import java.io.IOException;
 
 public class CarManagementService {
@@ -62,16 +61,47 @@ public class CarManagementService {
         }
     }
 
-    public void booking(String make, String model) {
+    public boolean canCustomerBookCar(Customer customer) {
+        // this method checks if the person is the correct age, has a licence, ID, correct payment etc..
+        // if customer good then return true, if customer bad then return false
+        int age = customer.getAge();
+        String paymentMethod = customer.getPaymentMethod();
+        String licence = customer.getDriversLicence();
+        boolean check1 = false;
+        boolean check2 = false;
+        boolean check3 = true;
+
+        if (age >= 25) {
+            check1 = true;
+        }
+        if (paymentMethod.equals("credit") || paymentMethod.equals("debit")) {
+            check2 = true;
+        }
+
+        if (check1 && check2 && check3) {
+            return true;
+        }
+        return false;
+    }
+
+    public void booking(String make, String model, Customer customer) {
         Car2 rentCar = availableDatabase.remove(make, model);
+        //rentCar.setTempOwner(customer);
         rentedDatabase.add(rentCar);
         System.out.println("You have successfully booked a " + rentCar.getCarMake() + " " + rentCar.getCarModel() + " with registration number: " + rentCar.getRegNum());
         System.out.println("This will cost you " + rentCar.getRentPrice() + " per day");
     }
 
-    public void returnCar(String regNum) {
-        Car2 availableCar = rentedDatabase.remove(regNum);
-        availableDatabase.add(availableCar);
-        System.out.println("You have successfully returned the car. Thank you, we hope to see you again soon!");
+    public boolean returnCar(String regNum) {
+        for (Car2 rentedCar : rentedDatabase.getCars()) {
+            if (rentedCar.getRegNum().equals(regNum)) {
+                Car2 availableCar = rentedDatabase.remove(regNum);
+                availableDatabase.add(availableCar);
+                System.out.println("You have successfully returned the car. Thank you, we hope to see you again soon!");
+                return true;
+            }
+        }
+        System.out.println("Sorry this registration number is incorrect.");
+        return false;
     }
 }
