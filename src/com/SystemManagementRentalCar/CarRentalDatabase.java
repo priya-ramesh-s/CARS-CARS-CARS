@@ -75,25 +75,47 @@ public class CarRentalDatabase {
 //    }
 
     public void saveData(String filepath) throws IOException{
-
         FileOutputStream fileOut = new FileOutputStream(filepath);
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
-//            for (Car2 car : this.cars) {
-//                out.writeObject(car);
-//            }
-        Car2 car = this.cars.get(0);
-        out.writeObject(car);
+            for (Car2 car : this.cars) {
+                out.writeObject(car);
+            }
+        //Car2 car = this.cars.get(0);
+        //out.writeObject(car);
 //        out.close();
 //        fileOut.close();
-        System.out.println("Data has been saved");
-
     }
 
-//    public void loadData(String filepath) {
+    public void loadData(String filepath) throws IOException, ClassNotFoundException{
 //        Scanner read = new Scanner(filepath);
 //        while (read.hasNext()) {
 //            System.out.println(read.nextLine());
 //        }
-//    }
+        //boolean fileNotEnd = true;
+//        while (true) {
+        FileInputStream fileIn = new FileInputStream(filepath);
+        ObjectInputStream in = new ObjectInputStream(fileIn);
+        ArrayList<Car2> deserializeCar = (ArrayList<Car2>)in.readObject();
+        in.close();
+        for (Car2 car : deserializeCar) {
+            System.out.println(car.getCarMake());
+        }
+
+//            Car2 car = (Car2)in.readObject();
+//            System.out.println("hi");
+//            if (car == null) {
+//                System.out.println("entered if");
+//                break;
+//            }
+//            this.cars.add(car);
+//        }
+//        System.out.println("Exited while loop");
+
+        //System.out.println(car.getCarMake()+" "+car.getCarModel()+ " "+car.getRegNum()+ " "+car.getRentPrice());
+
+//        for (Car2 car : this.cars) {
+//            in.readObject(car);
+//        }
+    }
 }
 

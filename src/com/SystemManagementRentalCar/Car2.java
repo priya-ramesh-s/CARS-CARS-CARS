@@ -1,6 +1,8 @@
 package com.SystemManagementRentalCar;
 
-public class Car2 {
+import java.io.Serializable;
+
+public class Car2 implements Serializable {
     private String carMake;  //fiat
     private String carModel;  //500
     private int rentPrice;

@@ -20,10 +20,14 @@ public class CarManagementService {
 
     // methods
 
-//    public void openDatabase() {
-//        this.availableDatabase.loadData(this.filepath_available);
-//        this.rentedDatabase.loadData(this.filepath_rented);
-//    }
+    public void openDatabase() {
+        try {
+            this.availableDatabase.loadData(this.filepath_available);
+            this.rentedDatabase.loadData(this.filepath_rented);
+        } catch(ClassNotFoundException | IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
 //    public void closeDatabase() {
 //        try {

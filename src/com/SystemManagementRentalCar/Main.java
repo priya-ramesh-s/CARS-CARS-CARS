@@ -9,7 +9,9 @@ public class Main {
         // populate cars
         CarManagementService management = new CarManagementService();
         // openDatabase so program can continue from last session
-        //management.openDatabase();
+        management.openDatabase();
+        management.displayAvailableCars();
+        management.displayRentedCars();
 
         Scanner userInput = new Scanner(System.in);
 
@@ -22,7 +24,8 @@ public class Main {
         boolean addNewCar = true;
         int i = 0;
         while(addNewCar) {
-            String carModel = "Fiat";
+            System.out.println("Enter car make");
+            String carModel = userInput.nextLine();
             String carMake = "500";
             int rentPrice = 100;
             System.out.println("Enter car registration number");
@@ -45,9 +48,9 @@ public class Main {
 
 
         // Return a car
-        System.out.println("Enter the registration number of the car you would like to return");
-        String regNum = userInput.nextLine();
-        management.returnCar(regNum);
+//        System.out.println("Enter the registration number of the car you would like to return");
+//        String regNum = userInput.nextLine();
+//        management.returnCar(regNum);
 
         // writing to database
         System.out.println("Do you want to exit? (y/n)");
