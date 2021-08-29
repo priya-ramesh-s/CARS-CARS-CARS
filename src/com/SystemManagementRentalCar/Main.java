@@ -2,6 +2,7 @@ package com.SystemManagementRentalCar;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.Date;
 
 public class Main {
 
@@ -26,7 +27,9 @@ public class Main {
                     boolean carManagementLoggedIn = true;
                     while (carManagementLoggedIn) {
                         //Car Management Team
+                        sleep(1000);
                         System.out.println("Select an option");
+                        sleep(1000);
                         System.out.println(" 1. Add a new car");
                         System.out.println(" 2. Log out");
                         int managementTeamOptions = userInput.nextInt();
@@ -55,6 +58,7 @@ public class Main {
                 case 2:
                     // Customer side
                     System.out.println("Hi welcome to CARS CARS CARS rental service!");
+                    sleep(1000);
                     boolean customerLoggedIn = true;
                     while (customerLoggedIn) {
                         System.out.println("Select an option");
@@ -66,8 +70,17 @@ public class Main {
                         switch(customerOptions) {
                             case 1:
                                 // Customer wants to view available cars
-                                System.out.println("These cars are currently available");
-                                management.displayAvailableCars();
+                                boolean customerViewingAvailableCars = true;
+                                while(customerViewingAvailableCars) {
+                                    System.out.println("These cars are currently available");
+                                    management.displayAvailableCars();
+                                    sleep(4000);
+                                    System.out.println("press any key to stop viewing the cars");
+                                    String exitViewingCars = userInput.next();
+                                    customerViewingAvailableCars = false;
+
+                                }
+
                                 break;
 
                             case 2:
@@ -103,17 +116,23 @@ public class Main {
                                 break;
 
                             case 3:
-                                boolean returningCar = true;
-                                while (returningCar) {
-                                    // Customer wants to return a car
-                                    System.out.println("Enter the registration number of the car you would like to return");
-                                    String regNum = userInput.next();
-                                    boolean carReturned = management.returnCar(regNum);
-                                    if (!carReturned) {
-                                        returningCar = false;
-                                    }
-                                }
+                                System.out.println("Enter the registration number of the car you would like to return");
+                                String regNum = userInput.next();
+                                management.returnCar(regNum);
                                 break;
+//                                boolean returningCar = true;
+//                                while (returningCar) {
+//                                    // Customer wants to return a car
+//                                    System.out.println("Enter the registration number of the car you would like to return");
+//                                    String regNum = userInput.next();
+//                                    boolean carReturned = management.returnCar(regNum);
+////                                    if (!carReturned) {
+////                                        returningCar = false;
+////                                    }
+//                                    returningCar = false;
+//                                }
+//                                break;
+
 
                             case 4:
                                 customerLoggedIn = false;
@@ -127,5 +146,13 @@ public class Main {
             }
         }
         management.closeDatabase();
+    }
+
+    static void sleep(int delay) {
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

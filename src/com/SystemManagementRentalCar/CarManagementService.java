@@ -51,13 +51,13 @@ public class CarManagementService {
 
     public void displayAvailableCars() {
         for (Car2 availableCar : this.availableDatabase.getCars()) {
-            System.out.println(availableCar.getCarMake() + " " + availableCar.getCarModel());
+            System.out.println(availableCar.getCarMake() + " " + availableCar.getCarModel() + " £" + availableCar.getRentPrice());
         }
     }
 
     public void displayRentedCars() {
         for (Car2 rentedCar : this.rentedDatabase.getCars()) {
-            System.out.println(rentedCar.getCarMake() + " " + rentedCar.getCarModel());
+            System.out.println(rentedCar.getCarMake() + " " + rentedCar.getCarModel() + " £" + rentedCar.getRentPrice());
         }
     }
 
@@ -92,16 +92,22 @@ public class CarManagementService {
         System.out.println("This will cost you " + rentCar.getRentPrice() + " per day");
     }
 
-    public boolean returnCar(String regNum) {
+    public void returnCar(String regNum) {
+        boolean rentedCarFound = false;
         for (Car2 rentedCar : rentedDatabase.getCars()) {
             if (rentedCar.getRegNum().equals(regNum)) {
                 Car2 availableCar = rentedDatabase.remove(regNum);
                 availableDatabase.add(availableCar);
                 System.out.println("You have successfully returned the car. Thank you, we hope to see you again soon!");
-                return true;
+                //return true;
+                rentedCarFound = true;
+                break;
             }
         }
-        System.out.println("Sorry this registration number is incorrect.");
-        return false;
+        if (!rentedCarFound) {
+            System.out.println("Sorry this registration number is incorrect.");
+        }
+
+        //return false;
     }
 }

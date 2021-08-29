@@ -2,7 +2,6 @@ package com.SystemManagementRentalCar;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.math.BigDecimal;
 
 public class CarRentalDatabase {
