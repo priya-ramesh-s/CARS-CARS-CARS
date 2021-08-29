@@ -20,27 +20,22 @@ public class CarManagementService {
 
     // methods
 
-    public void openDatabase() {
+    public void openDatabaseRented() {
         try {
-            this.availableDatabase.loadData(this.filepath_available);
             this.rentedDatabase.loadData(this.filepath_rented);
+            //this.availableDatabase.loadData(this.filepath_available);
         } catch(ClassNotFoundException | IOException e) {
             System.out.println(e.getMessage());
         }
     }
 
-//    public void closeDatabase() {
-//        try {
-//            this.availableDatabase.saveData(this.filepath_available);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        try {
-//            this.rentedDatabase.saveData(this.filepath_rented);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void openDatabaseAvailable() {
+        try {
+            this.availableDatabase.loadData(this.filepath_available);
+        } catch(ClassNotFoundException | IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     public void closeDatabase() {
         try {
@@ -49,7 +44,6 @@ public class CarManagementService {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
     }
 
     public void addNewCar(String model, String make, int rentPrice, String regNum) {
