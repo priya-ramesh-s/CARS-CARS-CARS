@@ -8,6 +8,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
+
+
+
 public class CarRentalDatabase {
     private int ID;
     private Customer customer;
@@ -17,10 +20,10 @@ public class CarRentalDatabase {
 
     public CarRentalDatabase(Customer customer,long startDate, long returnDate) {
         //this.ID = ID;
-        this.customer = new Customer();
+        //this.customer = new Customer();
         this.cars = new ArrayList<Car2>();
-        StartDate = StartDate;
-        ReturnDate = returnDate;
+        this.StartDate = StartDate;
+        this.ReturnDate = returnDate;
     }
 
     /*public int getID() {

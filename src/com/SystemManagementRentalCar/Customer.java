@@ -9,13 +9,13 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class Customer {
 
     //instance field
-    private String fullName;
+    private String name;
     private String drivingLicence;
     private String paymentMethod;
-    private String age;
+    private int age;
 
-    public Customer(String fullName,String age, String drivingLicence, String paymentMethod) {
-        this.fullName = fullName;
+    public Customer(String name, int age, String drivingLicence, String paymentMethod) {
+        this.name = name;
         this.drivingLicence = drivingLicence;
         this.paymentMethod = paymentMethod;
         this.age = age;
@@ -33,19 +33,17 @@ public class Customer {
         long rentalPeriod = DAYS.between(startLocalDate, endLocalDate);
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return this.name;
     }
 
-    public String getDrivingLicence() {
-        return drivingLicence;
-    }
+    public String getDrivingLicence() { return this.drivingLicence; }
 
     public String getPaymentMethod() {
-        return paymentMethod;
+        return this.paymentMethod;
     }
 
-    public String getAge() {
-        return age;
+    public int getAge() {
+        return this.age;
     }
 }
