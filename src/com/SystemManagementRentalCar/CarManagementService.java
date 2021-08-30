@@ -84,9 +84,9 @@ public class CarManagementService {
         // if customer good then return true, if customer bad then return false
         Scanner userInput = new Scanner(System.in);
 
-        System.out.println("Please enter your mobile number");
-        int mobileNumber = userInput.nextInt();
-        customer.setMobileNum(mobileNumber);
+//        System.out.println("Please enter your mobile number");
+//        int mobileNumber = userInput.nextInt();
+//        customer.setMobileNum(mobileNumber);
         System.out.println("Please enter your Drivers Licence reference");
         String DriversLicence = userInput.next();
         customer.setDriversLicence(DriversLicence);
@@ -100,13 +100,24 @@ public class CarManagementService {
 
         boolean check1 = false;
         boolean check2 = false;
-        boolean check3 = true;
+        boolean check3 = false;
 
         if (age >= 25) {
             check1 = true;
+        } else {
+            System.out.println("Sorry you need to be 25 or over to rent a car.");
         }
         if (paymentMethod.equals("credit") || paymentMethod.equals("debit")) {
             check2 = true;
+        } else {
+            System.out.println("Sorry you need to use a credit card or debit card to rent a car.");
+        }
+
+        String regex = "^[a-zA-Z0-9]{10,20}$";
+        if (licence.matches(regex)) {
+            check3 = true;
+        } else {
+            System.out.println("Sorry you have entered an incorrect licence number");
         }
 
         if (check1 && check2 && check3) {
@@ -139,7 +150,5 @@ public class CarManagementService {
         if (!rentedCarFound) {
             System.out.println("Sorry this registration number is incorrect.");
         }
-
-        //return false;
     }
 }

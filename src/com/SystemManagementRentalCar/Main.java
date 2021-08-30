@@ -7,7 +7,6 @@ import java.util.Date;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        // populate cars
         CarManagementService management = new CarManagementService();
         // load in both databases so session can continue from last time
         management.openDatabaseAvailable();

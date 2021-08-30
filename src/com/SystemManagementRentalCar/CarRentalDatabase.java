@@ -14,7 +14,6 @@ public class CarRentalDatabase {
 
     // Getter method
     public ArrayList<Car2> getCars() {
-
         return this.cars;
     }
 
@@ -51,7 +50,6 @@ public class CarRentalDatabase {
     }
 
     public void add(Car2 car) {
-        //adds car to arraylist of cars
         this.cars.add(car);
     }
 

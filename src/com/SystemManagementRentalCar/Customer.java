@@ -3,9 +3,10 @@ package com.SystemManagementRentalCar;
 public class Customer {
     private String name;
     private int age;
-    private int mobileNum;
+    //private int mobileNum;
     private String driversLicence;
     private String paymentMethod;
+    private String rentedCarRegNum;
 
 
     //constructor
@@ -13,11 +14,17 @@ public class Customer {
         // use this constructor if new customer
         this.name = name;
         this.age = age;
+        this.rentedCarRegNum = null;
     }
 
     // Setter methods
-    public void setMobileNum(int mobileNum) {
-        this.mobileNum = mobileNum;
+//    public void setMobileNum(int mobileNum) {
+//        this.mobileNum = mobileNum;
+//    }
+
+
+    public void setRentedCarRegNum(String rentedCarRegNum) {
+        this.rentedCarRegNum = rentedCarRegNum;
     }
 
     public void setDriversLicence(String driversLicence) {
@@ -37,9 +44,9 @@ public class Customer {
         return this.name;
     }
 
-    public int getMobileNum() {
-        return this.mobileNum;
-    }
+//    public int getMobileNum() {
+//        return this.mobileNum;
+//    }
 
     public String getDriversLicence() {
         return this.driversLicence;
