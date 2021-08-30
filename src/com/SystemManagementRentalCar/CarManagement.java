@@ -3,14 +3,15 @@ package com.SystemManagementRentalCar;
 import java.util.ArrayList;
 
 public class CarManagement {
-    public static final int ID = ;
+    public static final int ID = 1;
 
     public static void main(String[] args) {
         System.out.println("hi");
     }
 
     public static boolean isEmpty() {
-    }
+        return
+    } ;
 
     public static ArrayList<CarManagement> View() {
     }
