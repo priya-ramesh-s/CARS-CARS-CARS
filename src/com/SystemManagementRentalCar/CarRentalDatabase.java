@@ -12,14 +12,14 @@ public class CarRentalDatabase {
     private int ID;
     private Customer customer;
     private ArrayList<Car2> cars;
-    private long RentDate, ReturnDate; //stores system date
+    private long StartDate, ReturnDate; //stores system date
 
 
-    public CarRentalDatabase(Customer customer,long rentDate, long returnDate) {
+    public CarRentalDatabase(Customer customer,long startDate, long returnDate) {
         //this.ID = ID;
         this.customer = new Customer();
         this.cars = new ArrayList<Car2>();
-        RentDate = rentDate;
+        StartDate = StartDate;
         ReturnDate = returnDate;
     }
 
