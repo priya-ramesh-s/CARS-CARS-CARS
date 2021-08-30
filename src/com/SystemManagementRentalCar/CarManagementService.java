@@ -1,6 +1,7 @@
 package com.SystemManagementRentalCar;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class CarManagementService {
     private CarRentalDatabase availableDatabase;
@@ -45,11 +46,27 @@ public class CarManagementService {
         }
     }
 
-    public void addNewCar(String model, String make, int rentPrice, String regNum) {
-        this.availableDatabase.addNewCars(model, make, rentPrice, regNum);
+    public void addNewCar() {
+        Scanner userInput = new Scanner(System.in);
+        System.out.println("Enter the car make");
+        String make = userInput.next();
+        System.out.println("Enter the car model");
+        String model = userInput.next();
+        System.out.println("Enter the daily price to rent this car");
+        int rentPrice = userInput.nextInt();
+        System.out.println("Enter the registration number of this car");
+        String regNum = userInput.next();
+
+        Car2 newCar = new Car2();
+        newCar.setCarMake(make);
+        newCar.setCarModel(model);
+        newCar.setRentPrice(rentPrice);
+        newCar.setRegNum(regNum);
+        this.availableDatabase.addNewCars(newCar);
     }
 
     public void displayAvailableCars() {
+        System.out.println("These cars are currently available");
         for (Car2 availableCar : this.availableDatabase.getCars()) {
             System.out.println(availableCar.getCarMake() + " " + availableCar.getCarModel() + " £" + availableCar.getRentPrice());
         }
@@ -61,12 +78,26 @@ public class CarManagementService {
         }
     }
 
+
     public boolean canCustomerBookCar(Customer customer) {
         // this method checks if the person is the correct age, has a licence, ID, correct payment etc..
         // if customer good then return true, if customer bad then return false
+        Scanner userInput = new Scanner(System.in);
+
+        System.out.println("Please enter your mobile number");
+        int mobileNumber = userInput.nextInt();
+        customer.setMobileNum(mobileNumber);
+        System.out.println("Please enter your Drivers Licence reference");
+        String DriversLicence = userInput.next();
+        customer.setDriversLicence(DriversLicence);
+        System.out.println("Please enter whether you would like to use credit or debit");
+        String payment = userInput.next();
+        customer.setPaymentMethod(payment);
+
         int age = customer.getAge();
         String paymentMethod = customer.getPaymentMethod();
         String licence = customer.getDriversLicence();
+
         boolean check1 = false;
         boolean check2 = false;
         boolean check3 = true;
@@ -83,6 +114,7 @@ public class CarManagementService {
         }
         return false;
     }
+
 
     public void booking(String make, String model, Customer customer) {
         Car2 rentCar = availableDatabase.remove(make, model);

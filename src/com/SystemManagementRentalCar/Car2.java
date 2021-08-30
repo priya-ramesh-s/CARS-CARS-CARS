@@ -8,19 +8,29 @@ public class Car2 implements Serializable {
     private int rentPrice;
     private String regNum;
     //private Customer tempOwner;
+    private String permenantOwner;
 
     // Constructor
-    public Car2(String carMake, String carModel, int rentPrice, String regNum) {
-        this.carMake = carMake;
-        this.carModel = carModel;
-        this.rentPrice = rentPrice;
-        this.regNum = regNum;
+    public Car2() {
+        this.permenantOwner = "Cars Cars Cars";
     }
 
     // Setter Methods
-//    public void setTempOwner(Customer tempOwner) {
-//        this.tempOwner = tempOwner;
-//    }
+    public void setCarMake(String carMake) {
+        this.carMake = carMake;
+    }
+
+    public void setCarModel(String carModel) {
+        this.carModel = carModel;
+    }
+
+    public void setRegNum(String regNum) {
+        this.regNum = regNum;
+    }
+
+    public void setRentPrice(int rentPrice) {
+        this.rentPrice = rentPrice;
+    }
 
     // Getter Methods
     public String getCarMake() {

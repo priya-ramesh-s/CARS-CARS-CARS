@@ -17,9 +17,9 @@ public class Main {
         boolean sessionRunning = true;
         while (sessionRunning) {
             System.out.println("Select an option");
-            System.out.println(" 1. Car management team");
-            System.out.println(" 2. Customer");
-            System.out.println(" 3. Exit the session");
+            System.out.println(" 1. Enter Car management team section");
+            System.out.println(" 2. Enter Customer section");
+            System.out.println(" 3. Exit the entire session");
             int userType = userInput.nextInt();
             switch(userType) {
                 // Are you part of the car management team or are you a customer?
@@ -31,28 +31,25 @@ public class Main {
                         System.out.println("Select an option");
                         sleep(1000);
                         System.out.println(" 1. Add a new car");
-                        System.out.println(" 2. Log out");
+                        System.out.println(" 2. View Available cars");
+                        System.out.println(" 3. View Rented cars");
+                        System.out.println(" 4. Log out");
                         int managementTeamOptions = userInput.nextInt();
                         switch(managementTeamOptions) {
                             case 1:
-                                // add new car (car which didn't exist in either available or rented) to available
-                                System.out.println("Enter the car make");
-                                String Make = userInput.next();
-                                System.out.println("Enter the car model");
-                                String Model = userInput.next();
-                                System.out.println("Enter the daily price to rent this car");
-                                int DailyPrice = userInput.nextInt();
-                                System.out.println("Enter the registration number of this car");
-                                String RegNum = userInput.next();
-                                management.addNewCar(Make, Model, DailyPrice, RegNum);
+                                management.addNewCar();
                                 break;
-
                             case 2:
+                                management.displayAvailableCars();
+                                break;
+                            case 3:
+                                management.displayRentedCars();
+                                break;
+                            case 4:
                                 carManagementLoggedIn = false;
                                 break;
                         }
                     }
-
                     break;
 
                 case 2:
@@ -62,6 +59,7 @@ public class Main {
                     boolean customerLoggedIn = true;
                     while (customerLoggedIn) {
                         System.out.println("Select an option");
+                        sleep(1000);
                         System.out.println(" 1. View available cars");
                         System.out.println(" 2. Rent a car");
                         System.out.println(" 3. Return a car");
@@ -72,37 +70,26 @@ public class Main {
                                 // Customer wants to view available cars
                                 boolean customerViewingAvailableCars = true;
                                 while(customerViewingAvailableCars) {
-                                    System.out.println("These cars are currently available");
                                     management.displayAvailableCars();
                                     sleep(4000);
                                     System.out.println("press any key to stop viewing the cars");
                                     String exitViewingCars = userInput.next();
                                     customerViewingAvailableCars = false;
-
                                 }
-
                                 break;
-
                             case 2:
                                 System.out.println("Please enter your name");
                                 String name = userInput.next();
                                 System.out.println("Please enter your age");
                                 int age  = userInput.nextInt();
                                 Customer customer = new Customer(name, age);
-                                System.out.println("Please enter your mobile number");
-                                int mobileNumber = userInput.nextInt();
-                                customer.setMobileNum(mobileNumber);
-                                System.out.println("Please enter your Drivers Licence reference");
-                                String DriversLicence = userInput.next();
-                                customer.setDriversLicence(DriversLicence);
-                                System.out.println("Please enter whether you would like to use credit or debit");
-                                String paymentMethod = userInput.next();
-                                customer.setPaymentMethod(paymentMethod);
                                 boolean customerBooking = management.canCustomerBookCar(customer);
 
                                 if (customerBooking) {
                                     System.out.println("Please select one of these available cars");
+                                    sleep(1500);
                                     management.displayAvailableCars();
+                                    sleep(1000);
                                     System.out.println("Enter the make of the car you would like");
                                     String carMake = userInput.next();
                                     System.out.println("Enter the model of the car you would like");
@@ -110,43 +97,26 @@ public class Main {
                                     management.booking(carMake, carModel, customer);
                                 } else {
                                     System.out.println("Sorry you can't book a car");
-
                                 }
-
                                 break;
-
                             case 3:
                                 System.out.println("Enter the registration number of the car you would like to return");
                                 String regNum = userInput.next();
                                 management.returnCar(regNum);
                                 break;
-//                                boolean returningCar = true;
-//                                while (returningCar) {
-//                                    // Customer wants to return a car
-//                                    System.out.println("Enter the registration number of the car you would like to return");
-//                                    String regNum = userInput.next();
-//                                    boolean carReturned = management.returnCar(regNum);
-////                                    if (!carReturned) {
-////                                        returningCar = false;
-////                                    }
-//                                    returningCar = false;
-//                                }
-//                                break;
-
-
                             case 4:
                                 customerLoggedIn = false;
                                 break;
                         }
                     }
                     break;
-
                 case 3:
                     sessionRunning = false;
             }
         }
         management.closeDatabase();
     }
+
 
     static void sleep(int delay) {
         try {

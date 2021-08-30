@@ -19,11 +19,9 @@ public class CarRentalDatabase {
     }
 
     //methods
-    public void addNewCars(String make, String model, int rentPrice, String regNum) {
+    public void addNewCars(Car2 newCar) {
         //adds car to arraylist of cars
-        Car2 localCar;
-        localCar = new Car2(make, model, rentPrice, regNum);
-        this.cars.add(localCar);
+        this.cars.add(newCar);
     }
 
     public Car2 remove(String make, String model) {
