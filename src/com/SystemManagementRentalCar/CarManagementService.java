@@ -49,9 +49,9 @@ public class CarManagementService {
     public void addNewCar() {
         Scanner userInput = new Scanner(System.in);
         System.out.println("Enter the car make");
-        String make = userInput.next();
+        String make = userInput.nextLine();
         System.out.println("Enter the car model");
-        String model = userInput.next();
+        String model = userInput.nextLine();
         System.out.println("Enter the daily price to rent this car");
         int rentPrice = userInput.nextInt();
         System.out.println("Enter the registration number of this car");

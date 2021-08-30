@@ -94,9 +94,9 @@ public class Main {
                                     management.displayAvailableCars();
                                     sleep(1000);
                                     System.out.println("Enter the make of the car you would like");
-                                    String carMake = userInput.next();
+                                    String carMake = userInput.nextLine();
                                     System.out.println("Enter the model of the car you would like");
-                                    String carModel = userInput.next();
+                                    String carModel = userInput.nextLine();
                                     management.booking(carMake, carModel, customer);
                                 } else {
                                     System.out.println("Sorry you can't book a car");
