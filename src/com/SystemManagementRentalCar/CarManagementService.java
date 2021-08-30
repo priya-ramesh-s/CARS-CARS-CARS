@@ -62,7 +62,7 @@ public class CarManagementService {
         newCar.setCarModel(model);
         newCar.setRentPrice(rentPrice);
         newCar.setRegNum(regNum);
-        this.availableDatabase.addNewCars(newCar);
+        this.availableDatabase.add(newCar);
     }
 
     public void displayAvailableCars() {
@@ -87,7 +87,7 @@ public class CarManagementService {
 //        System.out.println("Please enter your mobile number");
 //        int mobileNumber = userInput.nextInt();
 //        customer.setMobileNum(mobileNumber);
-        System.out.println("Please enter your Drivers Licence reference");
+        System.out.println("Please enter your Drivers Licence number");
         String DriversLicence = userInput.next();
         customer.setDriversLicence(DriversLicence);
         System.out.println("Please enter whether you would like to use credit or debit");
@@ -113,8 +113,8 @@ public class CarManagementService {
             System.out.println("Sorry you need to use a credit card or debit card to rent a car.");
         }
 
-        String regex = "^[a-zA-Z0-9]{10,20}$";
-        if (licence.matches(regex)) {
+        String regEx = "^[a-zA-Z0-9]{10,20}$";
+        if (licence.matches(regEx)) {
             check3 = true;
         } else {
             System.out.println("Sorry you have entered an incorrect licence number");
