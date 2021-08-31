@@ -9,23 +9,23 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class CarManagementService {
     private CarRentalDatabase availableDatabase;
     private CarRentalDatabase rentedDatabase;
-    private String filepath_available;
-    private String filepath_rented;
+    private String objFilepathAvailable;
+    private String objFilepathRented;
 
 
     // constructor
     public CarManagementService() {
         this.availableDatabase = new CarRentalDatabase();
         this.rentedDatabase = new CarRentalDatabase();
-        this.filepath_available = "C:/Users/Sanchayata/Documents/available_cars.txt";  // enter filepath where you would like available cars info to be stored
-        this.filepath_rented = "C:/Users/Sanchayata/Documents/rented_cars.txt";     // enter filepath where you would like rented cars info to be stored
+        this.objFilepathAvailable = "C:/Users/Sanchayata/Documents/available_cars.txt";  // enter filepath where you would like available cars info to be stored
+        this.objFilepathRented = "C:/Users/Sanchayata/Documents/rented_cars.txt";     // enter filepath where you would like rented cars info to be stored
     }
 
     // methods
 
     public void openDatabaseRented() {
         try {
-            this.rentedDatabase.loadData(this.filepath_rented);
+            this.rentedDatabase.loadObjData(this.objFilepathRented);
             //this.availableDatabase.loadData(this.filepath_available);
         } catch(ClassNotFoundException | IOException e) {
             System.out.println(e.getMessage());
@@ -34,7 +34,7 @@ public class CarManagementService {
 
     public void openDatabaseAvailable() {
         try {
-            this.availableDatabase.loadData(this.filepath_available);
+            this.availableDatabase.loadObjData(this.objFilepathAvailable);
         } catch(ClassNotFoundException | IOException e) {
             System.out.println(e.getMessage());
         }
@@ -42,8 +42,8 @@ public class CarManagementService {
 
     public void closeDatabase() {
         try {
-            this.availableDatabase.saveData(this.filepath_available);
-            this.rentedDatabase.saveData(this.filepath_rented);
+            this.availableDatabase.saveObjData(this.objFilepathAvailable);
+            this.rentedDatabase.saveObjData(this.objFilepathRented);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -136,7 +136,6 @@ public class CarManagementService {
                 Car2 availableCar = rentedDatabase.remove(regNum);
                 availableDatabase.add(availableCar);
                 System.out.println("You have successfully returned the car. Thank you, we hope to see you again soon!");
-                //return true;
                 rentedCarFound = true;
                 break;
             }
@@ -148,10 +147,10 @@ public class CarManagementService {
 
     public long rentalPeriodCalc() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter Rental Start Date: dd/mm/yy");
+        System.out.println("Please enter Rental Start Date: yyyy-mm-dd");
         String rentalStartDate = scanner.nextLine();
         LocalDate startLocalDate = LocalDate.parse(rentalStartDate);
-        System.out.println("Please enter Rental End Date: dd/mm/yy");
+        System.out.println("Please enter Rental End Date: yyyy-mm-dd");
         String rentalEndDate = scanner.nextLine();
         LocalDate endLocalDate = LocalDate.parse(rentalEndDate);
         long rentalPeriod = DAYS.between(startLocalDate, endLocalDate);

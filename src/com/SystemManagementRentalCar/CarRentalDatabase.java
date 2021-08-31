@@ -49,8 +49,12 @@ public class CarRentalDatabase {
         return removeCar;
     }
 
-    public void saveData(String filepath) throws IOException {
-        FileOutputStream fileOut = new FileOutputStream(filepath);
+    public void saveReadableData(String filepath) throws IOException{
+
+    }
+
+    public void saveObjData(String filepathObj) throws IOException {
+        FileOutputStream fileOut = new FileOutputStream(filepathObj);
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
         for (Car2 car : this.cars) {
             out.writeObject(car);
@@ -59,8 +63,8 @@ public class CarRentalDatabase {
         fileOut.close();
     }
 
-    public void loadData(String filepath) throws IOException, ClassNotFoundException {
-        FileInputStream fileIn = new FileInputStream(filepath);
+    public void loadObjData(String filepathObj) throws IOException, ClassNotFoundException {
+        FileInputStream fileIn = new FileInputStream(filepathObj);
         ObjectInputStream in = new ObjectInputStream(fileIn);
         while (true) {
             Car2 car = (Car2) in.readObject();

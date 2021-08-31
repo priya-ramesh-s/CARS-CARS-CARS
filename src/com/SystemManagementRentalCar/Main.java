@@ -1,9 +1,8 @@
 package com.SystemManagementRentalCar;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Scanner;
-import java.util.Date;
+
 
 public class Main {
 
@@ -16,10 +15,10 @@ public class Main {
         Scanner userInput = new Scanner(System.in);
         boolean sessionRunning = true;
         while (sessionRunning) {
-            System.out.println("Select an option");
+            System.out.println("\nSelect an option");
             System.out.println(" 1. Enter Car management team section");
             System.out.println(" 2. Enter Customer section");
-            System.out.println(" 3. Exit the entire session");
+            System.out.println(" 3. Exit the entire session\n");
             int userType = userInput.nextInt();
             switch(userType) {
                 // Are you part of the car management team or are you a customer?
@@ -28,12 +27,12 @@ public class Main {
                     while (carManagementLoggedIn) {
                         //Car Management Team
                         sleep(1000);
-                        System.out.println("Select an option");
+                        System.out.println("\nSelect an option");
                         sleep(1000);
                         System.out.println(" 1. Add a new car");
                         System.out.println(" 2. View Available cars");
                         System.out.println(" 3. View Rented cars");
-                        System.out.println(" 4. Log out");
+                        System.out.println(" 4. Log out\n");
                         int managementTeamOptions = userInput.nextInt();
                         switch(managementTeamOptions) {
                             case 1:
@@ -58,12 +57,12 @@ public class Main {
                     sleep(1000);
                     boolean customerLoggedIn = true;
                     while (customerLoggedIn) {
-                        System.out.println("Select an option");
+                        System.out.println("\nSelect an option");
                         sleep(1000);
                         System.out.println(" 1. View available cars");
                         System.out.println(" 2. Rent a car");
                         System.out.println(" 3. Return a car");
-                        System.out.println(" 4. Log out");
+                        System.out.println(" 4. Log out\n");
                         int customerOptions = userInput.nextInt();
                         switch(customerOptions) {
                             case 1:
@@ -96,9 +95,9 @@ public class Main {
                                     management.displayAvailableCars();
                                     sleep(1000);
                                     System.out.println("Enter the make of the car you would like");
-                                    String carMake = userInput.nextLine();
+                                    String carMake = userInput.next();
                                     System.out.println("Enter the model of the car you would like");
-                                    String carModel = userInput.nextLine();
+                                    String carModel = userInput.next();
                                     int carDailyRentPrice = management.booking(carMake, carModel);
                                     management.calculateBill(carDailyRentPrice, rentalPeriod);
 
