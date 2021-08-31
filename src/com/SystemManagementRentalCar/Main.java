@@ -99,7 +99,7 @@ public class Main {
                                     String carMake = userInput.nextLine();
                                     System.out.println("Enter the model of the car you would like");
                                     String carModel = userInput.nextLine();
-                                    int carDailyRentPrice = management.booking(carMake, carModel, customer);
+                                    int carDailyRentPrice = management.booking(carMake, carModel);
                                     management.calculateBill(carDailyRentPrice, rentalPeriod);
 
                                 } else {

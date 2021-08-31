@@ -9,20 +9,22 @@ public class CarRentalDatabase {
 
     private ArrayList<Car2> cars;
 
-
+    // Constructor
     public CarRentalDatabase() {
         this.cars = new ArrayList<Car2>();
     }
 
-    public ArrayList<Car2> getCars() {
-        return this.cars;
-    }
+    // Getter Method
+    public ArrayList<Car2> getCars() { return this.cars; }
+
+    // Methods
 
     public void add(Car2 car) {
         this.cars.add(car);
     }
 
     public Car2 remove(String Make, String Model) {
+        // used if car is being rented, so being removed from available database
         Car2 removeCar = null;
         for (Car2 car : this.cars) {
             if (car.getCarMake().equals(Make) && car.getCarModel().equals(Model)) {
@@ -35,6 +37,7 @@ public class CarRentalDatabase {
     }
 
     public Car2 remove(String regNum) {
+        // used if car is being returned, so being removed from rented database
         Car2 removeCar = null;
         for (Car2 car : this.cars) {
             if (car.getRegNum().equals(regNum)) {

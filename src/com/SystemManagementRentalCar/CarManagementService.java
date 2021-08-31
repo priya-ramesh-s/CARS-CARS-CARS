@@ -83,15 +83,7 @@ public class CarManagementService {
 
 
     public boolean canCustomerBookCar(Customer customer) {
-        // this method checks if the person is the correct age, has a licence, ID, correct payment etc..
-        // if customer good then return true, if customer bad then return false
         Scanner userInput = new Scanner(System.in);
-
-//        System.out.println("Please enter your mobile number");
-//        int mobileNumber = userInput.nextInt();
-//        customer.setMobileNum(mobileNumber);
-
-
 
         int age = customer.getAge();
         String paymentMethod = customer.getPaymentMethod();
@@ -127,7 +119,7 @@ public class CarManagementService {
     }
 
 
-    public int booking(String make, String model, Customer customer) {
+    public int booking(String make, String model) {
         Car2 rentCar = availableDatabase.remove(make, model);
         //rentCar.setTempOwner(customer);
         rentedDatabase.add(rentCar);
@@ -169,19 +161,7 @@ public class CarManagementService {
 
 
     public void calculateBill(int carDailyFee, long rentalPeriod) {
-        // rent calculation
-//        long rentTime = this.getRentTime();
-//        long returnTime = this.getReturnTime();
-//        long totalTime = returnTime - rentTime;
-//        totalTime = totalTime / (1000 * 60 * 60);
-
         float totalBill = rentalPeriod * carDailyFee;
-//        if (totalTime != 0) {
-//            return (int) (rentPerHour * totalTime);
-//        } else {
-//            return rentPerHour;
-//        }
-
         System.out.println("As you have booked this car for " + rentalPeriod + "day(s), your total bill is: ");
         System.out.println(totalBill);
     }

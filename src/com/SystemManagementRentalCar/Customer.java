@@ -1,11 +1,5 @@
 package com.SystemManagementRentalCar;
 
-import java.time.LocalDate;
-import java.util.Objects;
-import java.util.Scanner;
-
-import static java.time.temporal.ChronoUnit.DAYS;
-
 public class Customer {
 
     //instance field
