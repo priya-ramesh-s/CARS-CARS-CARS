@@ -22,8 +22,8 @@ public class CarManagementService {
         this.rentedDatabase = new CarRentalDatabase();
         this.objFilepathAvailable = "C:/Users/Sanchayata/Documents/available_cars.txt";  // enter filepath where you would like available cars info to be stored
         this.objFilepathRented = "C:/Users/Sanchayata/Documents/rented_cars.txt";     // enter filepath where you would like rented cars info to be stored
-        this.filepathRented = "C:/Users/Sanchayata/Documents/rented_cars_readable.txt";
-        this.filepathAvailable = "C:/Users/Sanchayata/Documents/available_cars_readable.txt";
+        this.filepathRented = "C:/Users/Sanchayata/Documents/rented_cars_readable.txt"; //rented cars seen by human
+        this.filepathAvailable = "C:/Users/Sanchayata/Documents/available_cars_readable.txt"; //available cars seen by human
     }
 
     // methods
