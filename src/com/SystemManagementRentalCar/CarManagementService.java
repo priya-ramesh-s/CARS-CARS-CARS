@@ -11,14 +11,16 @@ public class CarManagementService {
     private CarRentalDatabase rentedDatabase;
     private String filepath_available;
     private String filepath_rented;
+    public static final String BLUE_BOLD_BRIGHT = "\033[1;94m";  // BLUE
+    public static final String ANSI_RESET = "\u001B[0m";
 
 
     // constructor
     public CarManagementService() {
         this.availableDatabase = new CarRentalDatabase();
         this.rentedDatabase = new CarRentalDatabase();
-        this.filepath_available = "C:/Users/Sanchayata/Documents/available_cars.txt";  // enter filepath where you would like available cars info to be stored
-        this.filepath_rented = "C:/Users/Sanchayata/Documents/rented_cars.txt";     // enter filepath where you would like rented cars info to be stored
+        this.filepath_available = "C:/Users/priya/Desktop/AvailableCars.rtf";  // enter filepath where you would like available cars info to be stored
+        this.filepath_rented ="C:/Users/priya/Desktop/RentedCars.rtf;";   // enter filepath where you would like rented cars info to be stored
     }
 
     // methods
@@ -69,7 +71,7 @@ public class CarManagementService {
     }
 
     public void displayAvailableCars() {
-        System.out.println("These cars are currently available");
+        System.out.println("These cars are currently available:");
         for (Car2 availableCar : this.availableDatabase.getCars()) {
             System.out.println(availableCar.getCarMake() + " " + availableCar.getCarModel() + " £" + availableCar.getRentPrice());
         }
@@ -97,7 +99,7 @@ public class CarManagementService {
         if (age >= 25) {
             check1 = true;
         } else {
-            System.out.println("Sorry you need to be 25 or over to rent a car.");
+            System.out.println( BLUE_BOLD_BRIGHT +"Sorry you need to be 25 or over to rent a car." + ANSI_RESET);
         }
         if (paymentMethod.equals("credit") || paymentMethod.equals("debit")) {
             check2 = true;
