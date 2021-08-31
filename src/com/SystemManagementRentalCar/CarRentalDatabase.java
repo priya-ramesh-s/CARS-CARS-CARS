@@ -3,6 +3,7 @@ package com.SystemManagementRentalCar;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class CarRentalDatabase {
@@ -14,6 +15,7 @@ public class CarRentalDatabase {
         this.cars = new ArrayList<Car2>();
     }
 
+
     // Getter Method
     public ArrayList<Car2> getCars() { return this.cars; }
 
@@ -22,6 +24,7 @@ public class CarRentalDatabase {
     public void add(Car2 car) {
         this.cars.add(car);
     }
+
 
     public Car2 remove(String Make, String Model) {
         // used if car is being rented, so being removed from available database
@@ -36,6 +39,7 @@ public class CarRentalDatabase {
         return removeCar;
     }
 
+
     public Car2 remove(String regNum) {
         // used if car is being returned, so being removed from rented database
         Car2 removeCar = null;
@@ -49,9 +53,26 @@ public class CarRentalDatabase {
         return removeCar;
     }
 
-    public void saveReadableData(String filepath) throws IOException{
 
+    public void saveReadableData(String filepath) throws IOException{
+        // to save a txt file which is readable outside the session
+        File file = new File(filepath);
+
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+
+        FileWriter fileWriter = new FileWriter(filepath);
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+
+        for (Car2 car : this.cars) {
+            printWriter.println(car.getCarMake() + " " + car.getCarModel() + " " + car.getRegNum() + " " + car.getRentPrice());
+            printWriter.println();
+        }
+        printWriter.flush();
+        printWriter.close();
     }
+
 
     public void saveObjData(String filepathObj) throws IOException {
         FileOutputStream fileOut = new FileOutputStream(filepathObj);
@@ -62,6 +83,7 @@ public class CarRentalDatabase {
         out.close();
         fileOut.close();
     }
+
 
     public void loadObjData(String filepathObj) throws IOException, ClassNotFoundException {
         FileInputStream fileIn = new FileInputStream(filepathObj);

@@ -11,6 +11,8 @@ public class CarManagementService {
     private CarRentalDatabase rentedDatabase;
     private String objFilepathAvailable;
     private String objFilepathRented;
+    private String filepathRented;
+    private String filepathAvailable;
 
 
     // constructor
@@ -19,6 +21,8 @@ public class CarManagementService {
         this.rentedDatabase = new CarRentalDatabase();
         this.objFilepathAvailable = "C:/Users/Sanchayata/Documents/available_cars.txt";  // enter filepath where you would like available cars info to be stored
         this.objFilepathRented = "C:/Users/Sanchayata/Documents/rented_cars.txt";     // enter filepath where you would like rented cars info to be stored
+        this.filepathRented = "C:/Users/Sanchayata/Documents/rented_cars_readable.txt";
+        this.filepathAvailable = "C:/Users/Sanchayata/Documents/available_cars_readable.txt";
     }
 
     // methods
@@ -44,6 +48,8 @@ public class CarManagementService {
         try {
             this.availableDatabase.saveObjData(this.objFilepathAvailable);
             this.rentedDatabase.saveObjData(this.objFilepathRented);
+            this.availableDatabase.saveReadableData(this.filepathAvailable);
+            this.rentedDatabase.saveReadableData(this.filepathRented);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
