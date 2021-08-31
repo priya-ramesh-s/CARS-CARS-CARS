@@ -1,6 +1,8 @@
 package com.SystemManagementRentalCar;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Car2 implements Serializable {
     private String carMake;
@@ -9,10 +11,12 @@ public class Car2 implements Serializable {
     private String regNum;
     //private Customer tempOwner;
     private String permenantOwner;
+    private ArrayList<LocalDate> rentalPeriods;
 
     // Constructor
     public Car2() {
         this.permenantOwner = "Cars Cars Cars";
+        this.rentalPeriods = new ArrayList<LocalDate>();
     }
 
     // Setter Methods
@@ -32,6 +36,8 @@ public class Car2 implements Serializable {
         this.rentPrice = rentPrice;
     }
 
+
+
     // Getter Methods
     public String getCarMake() {
         return this.carMake;
@@ -49,4 +55,5 @@ public class Car2 implements Serializable {
         return this.rentPrice;
     }
 
+    public ArrayList<LocalDate> getRentalPeriods() { return rentalPeriods; }
 }

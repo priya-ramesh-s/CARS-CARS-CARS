@@ -3,7 +3,6 @@ package com.SystemManagementRentalCar;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 
 public class CarRentalDatabase {
@@ -96,64 +95,5 @@ public class CarRentalDatabase {
             this.cars.add(car);
         }
     }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//
-//    @Override
-//    public String toString() {
-//        return "CarManagement{" + "ID=" + ID + ", \ncustomer=" + customer.toString() + ", \ncar2=" + car2.toString() + ", \nRentTime=" + RentTime + ", ReturnTime=" + ReturnTime + '}' + "\n";
-//    }
-
-
-
-
-
-    /*public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }*/
-
-//    public Customer getCustomer() {
-//        return customer;
-//    }
-//
-//    public void setCustomer(Customer customer) {
-//        this.customer = customer;
-//    }
-//
-//    public long getRentTime() {
-//        return RentTime;
-//    }
-//
-//    public void setRentTime(long rentTime) {
-//        RentTime = rentTime;
-//    }
-//
-//    public long getReturnTime() {
-//        return ReturnTime;
-//    }
-//
-//    public void setReturnTime(long returnTime) {
-//        ReturnTime = returnTime;
-//    }
-
-
-
-
