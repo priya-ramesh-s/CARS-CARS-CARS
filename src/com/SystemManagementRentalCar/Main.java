@@ -1,6 +1,8 @@
 package com.SystemManagementRentalCar;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -11,6 +13,7 @@ public class Main {
         // load in both databases so session can continue from last time
         management.openDatabaseAvailable();
         management.openDatabaseRented();
+        //management.setTodaysRentedCars();
 
         Scanner userInput = new Scanner(System.in);
         boolean sessionRunning = true;
@@ -55,8 +58,17 @@ public class Main {
                     // Customer side
                     System.out.println("Hi welcome to CARS CARS CARS rental service!");
                     sleep(1000);
+                    System.out.println("Please enter Rental Start Date: yyyy-mm-dd");
+                    String rentalStartDate = userInput.next();
+                    System.out.println("Please enter Rental End Date: yyyy-mm-dd");
+                    String rentalEndDate = userInput.next();
+                    LocalDate startDate = LocalDate.parse(rentalStartDate);
+                    LocalDate endDate = LocalDate.parse(rentalEndDate);
                     boolean customerLoggedIn = true;
                     while (customerLoggedIn) {
+                        ArrayList<LocalDate> requestedRentalDates = management.rentalDaysCalc(startDate,
+                                                                                              endDate);
+
                         System.out.println("\nSelect an option");
                         sleep(1000);
                         System.out.println(" 1. View available cars");
@@ -69,7 +81,7 @@ public class Main {
                                 // Customer wants to view available cars
                                 boolean customerViewingAvailableCars = true;
                                 while(customerViewingAvailableCars) {
-                                    management.displayAvailableCars();
+                                    management.displayAvailableCars(startDate, requestedRentalDates);
                                     sleep(4000);
                                     System.out.println("press any key to stop viewing the cars");
                                     String exitViewingCars = userInput.next();
@@ -89,17 +101,18 @@ public class Main {
                                 boolean customerBooking = management.canCustomerBookCar(customer);
 
                                 if (customerBooking) {
-                                    long rentalPeriod = management.rentalPeriodCalc();
+
                                     System.out.println("Please select one of these available cars");
                                     sleep(1500);
-                                    management.displayAvailableCars();
+                                    management.displayAvailableCars(startDate, requestedRentalDates);
                                     sleep(1000);
                                     System.out.println("Enter the make of the car you would like");
                                     String carMake = userInput.next();
                                     System.out.println("Enter the model of the car you would like");
                                     String carModel = userInput.next();
-                                    int carDailyRentPrice = management.booking(carMake, carModel);
-                                    management.calculateBill(carDailyRentPrice, rentalPeriod);
+                                    management.booking(carMake, carModel, requestedRentalDates, rentalStartDate);
+                                    long rentalPeriod = management.rentalPeriodCalc(startDate, endDate);
+                                    //management.calculateBill(carDailyRentPrice, rentalPeriod);
 
                                 } else {
                                     System.out.println("Sorry you can't book a car");

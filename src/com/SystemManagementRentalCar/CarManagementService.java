@@ -2,6 +2,7 @@ package com.SystemManagementRentalCar;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -44,6 +45,38 @@ public class CarManagementService {
         }
     }
 
+//    public void setTodaysAvailableCars() {
+//        boolean carNowAvailable = true;
+//        for (Car2 car : this.rentedDatabase.getCars()) {
+//            for (LocalDate rentDate : car.getRentalPeriods()) {
+//                if (LocalDate.now().equals(car.getRentalPeriods())) {
+//                    carNowAvailable = false;
+//                    break;
+//                }
+//            }
+//            if (carNowAvailable) {
+//                Car2 newlyAvailableCar = this.rentedDatabase.remove(car.getRegNum());
+//                this.availableDatabase.add(newlyAvailableCar);
+//            }
+//
+//        }
+//
+//    }
+
+    public void setTodaysRentedCars() {
+        boolean carAvailable = true;
+        for (Car2 car : this.availableDatabase.getCars()) {
+            if (car.getRentalPeriods().contains(LocalDate.now())) {
+                carAvailable = false;
+            }
+
+            if (!carAvailable) {
+                Car2 newlyRentedCar = this.availableDatabase.remove(car.getCarMake(), car.getCarModel());
+                this.availableDatabase.add(newlyRentedCar);
+            }
+        }
+    }
+
     public void closeDatabase() {
         try {
             this.availableDatabase.saveObjData(this.objFilepathAvailable);
@@ -65,6 +98,8 @@ public class CarManagementService {
         int rentPrice = userInput.nextInt();
         System.out.println("Enter the registration number of this car");
         String regNum = userInput.next();
+//        System.out.println("Enter a description of the car");
+//        String description = userInput.next();
 
         Car2 newCar = new Car2();
         newCar.setCarMake(make);
@@ -74,14 +109,44 @@ public class CarManagementService {
         this.availableDatabase.add(newCar);
     }
 
+
     public void displayAvailableCars() {
-        System.out.println("These cars are currently available");
+        // use this for management side, where they just want to see which cars are currently available on the day
         for (Car2 availableCar : this.availableDatabase.getCars()) {
             System.out.println(availableCar.getCarMake() + " " + availableCar.getCarModel() + " £" + availableCar.getRentPrice());
         }
     }
 
+
+    public void displayAvailableCars(LocalDate startDate, ArrayList<LocalDate> requestedRentalDates) {
+        // use this for customer side where customer wants to see cars based on booking dates
+        System.out.println("These cars are currently available");
+        ArrayList <String> availableDBCarRegNums = checkRequestedRentalDatesFromAvailableDatabase(requestedRentalDates);
+        ArrayList <String> rentedDBCarRegNums;
+
+        for (Car2 car : this.availableDatabase.getCars()) {
+            for (String regNum : availableDBCarRegNums) {
+                if (car.getRegNum().equals(regNum)) {
+                    System.out.println(car.getCarMake() + " " + car.getCarModel() + " £" + car.getRentPrice());
+                }
+            }
+        }
+        if(!(startDate.equals(LocalDate.now()))) {
+            rentedDBCarRegNums = checkRequestedRentalDatesFromRentedDatabase(requestedRentalDates);
+
+            for (Car2 car : this.rentedDatabase.getCars()) {
+                for (String regNum : rentedDBCarRegNums) {
+                    if (car.getRegNum().equals(regNum)) {
+                        System.out.println(car.getCarMake() + " " + car.getCarModel() + " £" + car.getRentPrice());
+                    }
+                }
+            }
+        }
+    }
+
+
     public void displayRentedCars() {
+        // only needed for management side
         for (Car2 rentedCar : this.rentedDatabase.getCars()) {
             System.out.println(rentedCar.getCarMake() + " " + rentedCar.getCarModel() + " £" + rentedCar.getRentPrice());
         }
@@ -94,7 +159,6 @@ public class CarManagementService {
         int age = customer.getAge();
         String paymentMethod = customer.getPaymentMethod();
         String licence = customer.getDrivingLicence();
-
 
         boolean check1 = false;
         boolean check2 = false;
@@ -125,15 +189,65 @@ public class CarManagementService {
     }
 
 
-    public int booking(String make, String model) {
-        Car2 rentCar = availableDatabase.remove(make, model);
-        //rentCar.setTempOwner(customer);
-        rentedDatabase.add(rentCar);
-        System.out.println("You have successfully booked a " + rentCar.getCarMake() + " " + rentCar.getCarModel() + " with registration number: " + rentCar.getRegNum());
-        System.out.println("This will cost you " + rentCar.getRentPrice() + " per day");
+    public void booking(String make, String model, ArrayList<LocalDate> requestedRentalDates,
+                       String startDate) {
+        LocalDate startRentingCar = LocalDate.parse(startDate);
 
-        return rentCar.getRentPrice();
+        if (LocalDate.now().equals(startRentingCar)) {
+            Car2 rentCar = availableDatabase.remove(make, model);
+            rentedDatabase.add(rentCar);
+            System.out.println("You have successfully booked a " + rentCar.getCarMake() + " " + rentCar.getCarModel() + " with registration number: " + rentCar.getRegNum());
+            System.out.println("This will cost you " + rentCar.getRentPrice() + " per day");
+
+            for (LocalDate requestedRentalDate : requestedRentalDates) {
+                rentCar.getRentalPeriods().add(requestedRentalDate);
+            }
+        } else {
+            boolean carFound = false;
+            for (Car2 car : this.availableDatabase.getCars()) {
+                if (car.getCarMake().equals(make) && car.getCarModel().equals(model)) {
+                    ArrayList <String> availableDBCarRegNums = checkRequestedRentalDatesFromAvailableDatabase(requestedRentalDates);
+                    for (String availableDBCarRegNum : availableDBCarRegNums) {
+                        if (car.getRegNum().equals(availableDBCarRegNum)) {
+                            carFound = true;
+                            for (LocalDate requestedRentalDate : requestedRentalDates) {
+                                car.getRentalPeriods().add(requestedRentalDate);
+                            }
+                            System.out.println("You have successfully booked a " + car.getCarMake() + " " + car.getCarModel() + " with registration number: " + car.getRegNum());
+                            System.out.println("This will cost you " + car.getRentPrice() + " per day");
+                            break;
+                        }
+                    }
+                }
+                if (carFound) {
+                    break;
+                }
+            }
+
+            if (!carFound) {
+                for (Car2 car : this.rentedDatabase.getCars()) {
+                    if (car.getCarMake().equals(make) && car.getCarModel().equals(model)) {
+                        ArrayList<String> rentedDBCarRegNums = checkRequestedRentalDatesFromRentedDatabase(requestedRentalDates);
+                        for (String rentedDBCarRegNum : rentedDBCarRegNums) {
+                            if (car.getRegNum().equals(rentedDBCarRegNum)) {
+                                carFound = true;
+                                for (LocalDate requestedRentalDate : requestedRentalDates) {
+                                    car.getRentalPeriods().add(requestedRentalDate);
+                                }
+                                System.out.println("You have successfully booked a " + car.getCarMake() + " " + car.getCarModel() + " with registration number: " + car.getRegNum());
+                                System.out.println("This will cost you " + car.getRentPrice() + " per day");
+                                break;
+                            }
+                        }
+                    }
+                    if (carFound) {
+                        break;
+                    }
+                }
+            }
+        }
     }
+
 
     public void returnCar(String regNum) {
         boolean rentedCarFound = false;
@@ -151,23 +265,80 @@ public class CarManagementService {
         }
     }
 
-    public long rentalPeriodCalc() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter Rental Start Date: yyyy-mm-dd");
-        String rentalStartDate = scanner.nextLine();
-        LocalDate startLocalDate = LocalDate.parse(rentalStartDate);
-        System.out.println("Please enter Rental End Date: yyyy-mm-dd");
-        String rentalEndDate = scanner.nextLine();
-        LocalDate endLocalDate = LocalDate.parse(rentalEndDate);
-        long rentalPeriod = DAYS.between(startLocalDate, endLocalDate);
+
+    public ArrayList<LocalDate> rentalDaysCalc(LocalDate startDate, LocalDate endDate) {
+
+        ArrayList<LocalDate> requestedRentalDates = new ArrayList<LocalDate>();
+
+        boolean withinRentalPeriod = true;
+        while (withinRentalPeriod) {
+            requestedRentalDates.add(startDate);
+            startDate = startDate.plus(1, DAYS);
+
+            if (startDate.equals(endDate.plus(1, DAYS))) {
+                withinRentalPeriod = false;
+            }
+        }
+        return requestedRentalDates;
+    }
+
+    public ArrayList<String> checkRequestedRentalDatesFromAvailableDatabase(ArrayList<LocalDate> requestedRentalDates) {
+        ArrayList<String> availableCarRegNums = new ArrayList<String>();
+        boolean carAvailableForRequestedDates = true;
+        for (Car2 car : this.availableDatabase.getCars()) {
+            for (LocalDate carRentedDate : car.getRentalPeriods()) {
+                for (LocalDate requestedRentalDate : requestedRentalDates) {
+                    if (requestedRentalDate.equals(carRentedDate)) {
+                        carAvailableForRequestedDates = false;
+                        break;
+                    }
+                }
+                if (!carAvailableForRequestedDates) {
+                    break;
+                }
+            }
+            if (carAvailableForRequestedDates) {
+                availableCarRegNums.add(car.getRegNum());
+            }
+        }
+        return availableCarRegNums;
+    }
+
+    public ArrayList<String> checkRequestedRentalDatesFromRentedDatabase(ArrayList<LocalDate> requestedRentalDates) {
+        ArrayList<String> availableCarRegNums = new ArrayList<String>();
+        boolean carAvailableForRequestedDates = true;
+
+        for (Car2 car : this.rentedDatabase.getCars()) {
+            for (LocalDate carRentedDate : car.getRentalPeriods()) {
+                for (LocalDate requestedRentalDate : requestedRentalDates) {
+                    if (requestedRentalDate.equals(carRentedDate)) {
+                        carAvailableForRequestedDates = false;
+                        break;
+                    }
+                }
+                if (!carAvailableForRequestedDates) {
+                    break;
+                }
+            }
+            if (carAvailableForRequestedDates) {
+                availableCarRegNums.add(car.getRegNum());
+            }
+        }
+        return availableCarRegNums;
+    }
+
+
+    public long rentalPeriodCalc(LocalDate startDate, LocalDate endDate) {
+
+        long rentalPeriod = DAYS.between(startDate, endDate);
 
         return rentalPeriod;
     }
 
 
-    public void calculateBill(int carDailyFee, long rentalPeriod) {
-        float totalBill = rentalPeriod * carDailyFee;
-        System.out.println("As you have booked this car for " + rentalPeriod + "day(s), your total bill is: ");
-        System.out.println(totalBill);
-    }
+//    public void calculateBill(int carDailyFee, long rentalPeriod) {
+//        float totalBill = rentalPeriod * carDailyFee;
+//        System.out.println("As you have booked this car for " + rentalPeriod + "day(s), your total bill is: ");
+//        System.out.println(totalBill);
+//    }
 }
