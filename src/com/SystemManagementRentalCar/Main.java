@@ -1,6 +1,7 @@
 package com.SystemManagementRentalCar;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.Date;
 
@@ -89,6 +90,7 @@ public class Main {
                                 boolean customerBooking = management.canCustomerBookCar(customer);
 
                                 if (customerBooking) {
+                                    long rentalPeriod = management.rentalPeriodCalc();
                                     System.out.println("Please select one of these available cars");
                                     sleep(1500);
                                     management.displayAvailableCars();
@@ -97,7 +99,9 @@ public class Main {
                                     String carMake = userInput.nextLine();
                                     System.out.println("Enter the model of the car you would like");
                                     String carModel = userInput.nextLine();
-                                    management.booking(carMake, carModel, customer);
+                                    int carDailyRentPrice = management.booking(carMake, carModel, customer);
+                                    management.calculateBill(carDailyRentPrice, rentalPeriod);
+
                                 } else {
                                     System.out.println("Sorry you can't book a car");
                                 }

@@ -1,7 +1,10 @@
 package com.SystemManagementRentalCar;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Scanner;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public class CarManagementService {
     private CarRentalDatabase availableDatabase;
@@ -124,12 +127,14 @@ public class CarManagementService {
     }
 
 
-    public void booking(String make, String model, Customer customer) {
+    public int booking(String make, String model, Customer customer) {
         Car2 rentCar = availableDatabase.remove(make, model);
         //rentCar.setTempOwner(customer);
         rentedDatabase.add(rentCar);
         System.out.println("You have successfully booked a " + rentCar.getCarMake() + " " + rentCar.getCarModel() + " with registration number: " + rentCar.getRegNum());
         System.out.println("This will cost you " + rentCar.getRentPrice() + " per day");
+
+        return rentCar.getRentPrice();
     }
 
     public void returnCar(String regNum) {
@@ -147,5 +152,37 @@ public class CarManagementService {
         if (!rentedCarFound) {
             System.out.println("Sorry this registration number is incorrect.");
         }
+    }
+
+    public long rentalPeriodCalc() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter Rental Start Date: dd/mm/yy");
+        String rentalStartDate = scanner.nextLine();
+        LocalDate startLocalDate = LocalDate.parse(rentalStartDate);
+        System.out.println("Please enter Rental End Date: dd/mm/yy");
+        String rentalEndDate = scanner.nextLine();
+        LocalDate endLocalDate = LocalDate.parse(rentalEndDate);
+        long rentalPeriod = DAYS.between(startLocalDate, endLocalDate);
+
+        return rentalPeriod;
+    }
+
+
+    public void calculateBill(int carDailyFee, long rentalPeriod) {
+        // rent calculation
+//        long rentTime = this.getRentTime();
+//        long returnTime = this.getReturnTime();
+//        long totalTime = returnTime - rentTime;
+//        totalTime = totalTime / (1000 * 60 * 60);
+
+        float totalBill = rentalPeriod * carDailyFee;
+//        if (totalTime != 0) {
+//            return (int) (rentPerHour * totalTime);
+//        } else {
+//            return rentPerHour;
+//        }
+
+        System.out.println("As you have booked this car for " + rentalPeriod + "day(s), your total bill is: ");
+        System.out.println(totalBill);
     }
 }

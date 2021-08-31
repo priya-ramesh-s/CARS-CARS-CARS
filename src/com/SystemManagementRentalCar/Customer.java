@@ -21,22 +21,6 @@ public class Customer {
         this.age = age;
     }
 
-    //RentCar method
-    public void rentCar(LocalDate date) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter Rental Start Date: dd/mm/yy");
-        String rentalStartDate = scanner.nextLine();
-        LocalDate startLocalDate = LocalDate.parse(rentalStartDate);
-        System.out.println("Please enter Rental End Date: dd/mm/yy");
-        String rentalEndDate = scanner.nextLine();
-        LocalDate endLocalDate = LocalDate.parse(rentalEndDate);
-        long rentalPeriod = DAYS.between(startLocalDate, endLocalDate);
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
     public String getDrivingLicence() { return this.drivingLicence; }
 
     public String getPaymentMethod() {

@@ -3,8 +3,8 @@ package com.SystemManagementRentalCar;
 import java.io.Serializable;
 
 public class Car2 implements Serializable {
-    private String carMake;  //fiat
-    private String carModel;  //500
+    private String carMake;
+    private String carModel;
     private int rentPrice;
     private String regNum;
     //private Customer tempOwner;
