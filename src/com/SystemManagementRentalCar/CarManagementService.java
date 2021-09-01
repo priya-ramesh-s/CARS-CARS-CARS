@@ -1,6 +1,7 @@
 package com.SystemManagementRentalCar;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -16,15 +17,10 @@ public class CarManagementService {
     private String filepathAvailable;
     public static final String YELLOW_BACKGROUND_BRIGHT = "\033[0;103m";// YELLOW
     public static final String BLACK_BOLD_BRIGHT = "\033[1;90m"; // BLACK
-    public static final String RED_BOLD_BRIGHT = "\033[1;91m";   // RED
     public static final String RED_BACKGROUND_BRIGHT = "\033[0;101m";// RED
-    public static final String YELLOW_BOLD_BRIGHT = "\033[1;93m";// YELLOW1
-    public static final String BLUE_BOLD_BRIGHT = "\033[1;94m";  // BLUE
     public static final String BLUE_BACKGROUND_BRIGHT = "\033[0;104m";// BLUE
     public static final String GREEN_BACKGROUND_BRIGHT = "\033[0;102m";// GREEN
-    public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_RESET = "\u001B[0m";
-
 
     // constructor
     public CarManagementService() {
@@ -41,7 +37,6 @@ public class CarManagementService {
     public void openDatabaseRented() {
         try {
             this.rentedDatabase.loadObjData(this.objFilepathRented);
-            //this.availableDatabase.loadData(this.filepath_available);
         } catch(ClassNotFoundException | IOException e) {
             System.out.println(e.getMessage());
         }
@@ -55,34 +50,17 @@ public class CarManagementService {
         }
     }
 
-//    public void setTodaysAvailableCars() {
-//        boolean carNowAvailable = true;
-//        for (Car2 car : this.rentedDatabase.getCars()) {
-//            for (LocalDate rentDate : car.getRentalPeriods()) {
-//                if (LocalDate.now().equals(car.getRentalPeriods())) {
-//                    carNowAvailable = false;
-//                    break;
-//                }
-//            }
-//            if (carNowAvailable) {
-//                Car2 newlyAvailableCar = this.rentedDatabase.remove(car.getRegNum());
-//                this.availableDatabase.add(newlyAvailableCar);
-//            }
-//
-//        }
-//
-//    }
 
     public void setTodaysRentedCars() {
-        boolean carAvailable = true;
+        boolean carNotAvailable = false;
         for (Car2 car : this.availableDatabase.getCars()) {
-            if (car.getRentalPeriods().contains(LocalDate.now())) {
-                carAvailable = false;
-            }
+            carNotAvailable = car.getRentalPeriods().contains(LocalDate.now());
+            System.out.println(carNotAvailable);
 
-            if (!carAvailable) {
-                Car2 newlyRentedCar = this.availableDatabase.remove(car.getCarMake(), car.getCarModel());
+            if (carNotAvailable) {
+                Car2 newlyRentedCar = this.availableDatabase.remove(car.getRegNum());
                 this.availableDatabase.add(newlyRentedCar);
+                carNotAvailable = false;
             }
         }
     }
@@ -104,18 +82,28 @@ public class CarManagementService {
         String make = userInput.nextLine();
         System.out.println("Enter the car model");
         String model = userInput.nextLine();
-        System.out.println("Enter the daily price to rent this car");
-        int rentPrice = userInput.nextInt();
-        System.out.println("Enter the registration number of this car" + ANSI_RESET);
-        String regNum = userInput.next();
-//        System.out.println("Enter a description of the car");
-//        String description = userInput.next();
+        boolean correctRegNum = false;
+        String regNum = "ABC 123D";
+        while (!correctRegNum) {
+            System.out.println("Enter the registration number of this car" + ANSI_RESET);
+            String regexRegNum = "[A-Z0-9]{7}$";
+            regNum = userInput.nextLine();
+            if (regNum.matches(regexRegNum)) {
+                correctRegNum = true;
+                System.out.println(correctRegNum);
+            } else {
+                System.out.println(RED_BACKGROUND_BRIGHT + BLACK_BOLD_BRIGHT + "The registration number you have entered is incorrect." + ANSI_RESET);
+                System.out.println(RED_BACKGROUND_BRIGHT + BLACK_BOLD_BRIGHT + "Please enter seven characters which are only made up of numbers and letters"+ ANSI_RESET);
+            }
+        }
 
-        Car2 newCar = new Car2();
-        newCar.setCarMake(make);
-        newCar.setCarModel(model);
-        newCar.setRentPrice(rentPrice);
-        newCar.setRegNum(regNum);
+        System.out.println("Enter a description of the car");
+        String description = userInput.nextLine();
+        System.out.println("Enter the daily price to rent this car");
+        BigDecimal rentPrice = userInput.nextBigDecimal();
+
+        Car2 newCar = new Car2(make, model, rentPrice, regNum);
+        newCar.setDescription(description);
         this.availableDatabase.add(newCar);
     }
 
@@ -124,6 +112,7 @@ public class CarManagementService {
         // use this for management side, where they just want to see which cars are currently available on the day
         for (Car2 availableCar : this.availableDatabase.getCars()) {
             System.out.println(availableCar.getCarMake() + " " + availableCar.getCarModel() + " £" + availableCar.getRentPrice());
+            System.out.println(availableCar.getDescription() + "\n");
         }
     }
 
@@ -138,6 +127,7 @@ public class CarManagementService {
             for (String regNum : availableDBCarRegNums) {
                 if (car.getRegNum().equals(regNum)) {
                     System.out.println(car.getCarMake() + " " + car.getCarModel() + " £" + car.getRentPrice());
+                    System.out.println(car.getDescription() + "\n");
                 }
             }
         }
@@ -148,6 +138,7 @@ public class CarManagementService {
                 for (String regNum : rentedDBCarRegNums) {
                     if (car.getRegNum().equals(regNum)) {
                         System.out.println(car.getCarMake() + " " + car.getCarModel() + " £" + car.getRentPrice());
+                        System.out.println(car.getDescription() + "\n");
                     }
                 }
             }
@@ -164,35 +155,33 @@ public class CarManagementService {
 
 
     public boolean canCustomerBookCar(Customer customer) {
-        Scanner userInput = new Scanner(System.in);
-
         int age = customer.getAge();
         String paymentMethod = customer.getPaymentMethod();
         String licence = customer.getDrivingLicence();
 
-        boolean check1 = false;
-        boolean check2 = false;
-        boolean check3 = false;
+        boolean ageCheck = false;
+        boolean paymentCheck = false;
+        boolean licenceCheck = false;
 
         if (age >= 25) {
-            check1 = true;
+            ageCheck = true;
         } else {
             System.out.println(RED_BACKGROUND_BRIGHT + BLACK_BOLD_BRIGHT +"Sorry you need to be 25 or over to rent a car." + ANSI_RESET);
         }
         if (paymentMethod.equals( "credit") || paymentMethod.equals("debit" )) {
-            check2 = true;
+            paymentCheck = true;
         } else {
             System.out.println(RED_BACKGROUND_BRIGHT + BLACK_BOLD_BRIGHT + "Sorry you need to use a credit card or debit card to rent a car." + ANSI_RESET);
         }
 
-        String regex = "^[a-zA-Z0-9]{10,20}$";
-        if (licence.matches(regex)) {
-            check3 = true;
+        String regexLicence = "^[a-zA-Z0-9]{10,20}$";
+        if (licence.matches(regexLicence)) {
+            licenceCheck = true;
         } else {
             System.out.println(RED_BACKGROUND_BRIGHT + BLACK_BOLD_BRIGHT + "Sorry you have entered an incorrect licence number" + ANSI_RESET);
         }
 
-        if (check1 && check2 && check3) {
+        if (ageCheck && paymentCheck && licenceCheck) {
             return true;
         }
         return false;
@@ -205,9 +194,12 @@ public class CarManagementService {
 
         if (LocalDate.now().equals(startRentingCar)) {
             Car2 rentCar = availableDatabase.remove(make, model);
+            if (rentCar == null) {
+                System.out.println(RED_BACKGROUND_BRIGHT + BLACK_BOLD_BRIGHT + "Sorry you have either the wrong model or make." + ANSI_RESET);
+            }
             rentedDatabase.add(rentCar);
             System.out.println(GREEN_BACKGROUND_BRIGHT+ BLACK_BOLD_BRIGHT + "You have successfully booked a " + rentCar.getCarMake() + " " + rentCar.getCarModel() + " with registration number: " + rentCar.getRegNum());
-            System.out.println("This will cost you " + rentCar.getRentPrice() + " per day" + ANSI_RESET);
+            System.out.println("This will cost you £" + rentCar.getRentPrice() + " per day" + ANSI_RESET);
 
             for (LocalDate requestedRentalDate : requestedRentalDates) {
                 rentCar.getRentalPeriods().add(requestedRentalDate);
@@ -234,6 +226,7 @@ public class CarManagementService {
                 }
             }
 
+
             if (!carFound) {
                 for (Car2 car : this.rentedDatabase.getCars()) {
                     if (car.getCarMake().equals(make) && car.getCarModel().equals(model)) {
@@ -255,21 +248,26 @@ public class CarManagementService {
                     }
                 }
             }
+            if (!carFound) {
+                System.out.println("Sorry you have either the wrong model or make.");
+            }
         }
     }
 
 
     public void returnCar(String regNum) {
         boolean rentedCarFound = false;
+
         for (Car2 rentedCar : rentedDatabase.getCars()) {
             if (rentedCar.getRegNum().equals(regNum)) {
+                rentedCarFound = true;
                 Car2 availableCar = rentedDatabase.remove(regNum);
                 availableDatabase.add(availableCar);
                 System.out.println(GREEN_BACKGROUND_BRIGHT+ BLACK_BOLD_BRIGHT + "You have successfully returned the car. Thank you, we hope to see you again soon!" + ANSI_RESET);
-                rentedCarFound = true;
                 break;
             }
         }
+
         if (!rentedCarFound) {
             System.out.println(RED_BACKGROUND_BRIGHT+ BLACK_BOLD_BRIGHT +  "Sorry this registration number is incorrect." + ANSI_RESET);
         }
@@ -352,3 +350,30 @@ public class CarManagementService {
 //        System.out.println(totalBill);
 //    }
 }
+
+
+
+
+
+
+
+
+
+
+//    public void setTodaysAvailableCars() {
+//        boolean carNowAvailable = true;
+//        for (Car2 car : this.rentedDatabase.getCars()) {
+//            for (LocalDate rentDate : car.getRentalPeriods()) {
+//                if (LocalDate.now().equals(car.getRentalPeriods())) {
+//                    carNowAvailable = false;
+//                    break;
+//                }
+//            }
+//            if (carNowAvailable) {
+//                Car2 newlyAvailableCar = this.rentedDatabase.remove(car.getRegNum());
+//                this.availableDatabase.add(newlyAvailableCar);
+//            }
+//
+//        }
+//
+//    }

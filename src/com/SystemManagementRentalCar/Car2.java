@@ -1,38 +1,31 @@
 package com.SystemManagementRentalCar;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Car2 implements Serializable {
     private String carMake;
     private String carModel;
-    private int rentPrice;
+    private BigDecimal rentPrice;
     private String regNum;
-    //private Customer tempOwner;
     private String permenantOwner;
     private ArrayList<LocalDate> rentalPeriods;
     private String description;
 
     // Constructor
-    public Car2() {
+    public Car2(String make, String model, BigDecimal rentPrice, String regNum) {
         this.permenantOwner = "Cars Cars Cars";
         this.rentalPeriods = new ArrayList<LocalDate>();
-    }
-
-    // Setter Methods
-    public void setCarMake(String carMake) {
-        this.carMake = carMake;
-    }
-    public void setCarModel(String carModel) {
-        this.carModel = carModel;
-    }
-    public void setRegNum(String regNum) {
+        this.description = "It's a car... what more do you even need to know??";
+        this.carMake = make;
+        this.carModel = model;
+        this.rentPrice = rentPrice;
         this.regNum = regNum;
     }
-    public void setRentPrice(int rentPrice) {
-        this.rentPrice = rentPrice;
-    }
+
+    // Setter Method
     public void setDescription(String description) { this.description = description; }
 
     // Getter Methods
@@ -45,7 +38,7 @@ public class Car2 implements Serializable {
     public String getRegNum() {
         return this.regNum;
     }
-    public int getRentPrice() {
+    public BigDecimal getRentPrice() {
         return this.rentPrice;
     }
     public ArrayList<LocalDate> getRentalPeriods() { return rentalPeriods; }

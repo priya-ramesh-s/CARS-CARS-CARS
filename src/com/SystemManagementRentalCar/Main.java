@@ -9,39 +9,20 @@ import java.util.Scanner;
 public class Main {
 
     public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
-
-    public static final String BLACK_BACKGROUND_BRIGHT = "\033[0;100m";// BLACK
-    public static final String RED_BACKGROUND_BRIGHT = "\033[0;101m";// RED
-    public static final String GREEN_BACKGROUND_BRIGHT = "\033[0;102m";// GREEN
-    public static final String YELLOW_BACKGROUND_BRIGHT = "\033[0;103m";// YELLOW
-    public static final String BLUE_BACKGROUND_BRIGHT = "\033[0;104m";// BLUE
-    public static final String PURPLE_BACKGROUND_BRIGHT = "\033[0;105m"; // PURPLE
-    public static final String CYAN_BACKGROUND_BRIGHT = "\033[0;106m";  // CYAN
-    public static final String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";   // WHITE
-
-    public static final String BLACK_BOLD_BRIGHT = "\033[1;90m"; // BLACK
-    public static final String RED_BOLD_BRIGHT = "\033[1;91m";   // RED
-    public static final String GREEN_BOLD_BRIGHT = "\033[1;92m"; // GREEN
     public static final String YELLOW_BOLD_BRIGHT = "\033[1;93m";// YELLOW1
     public static final String BLUE_BOLD_BRIGHT = "\033[1;94m";  // BLUE
-    public static final String PURPLE_BOLD_BRIGHT = "\033[1;95m";// PURPLE
-    public static final String CYAN_BOLD_BRIGHT = "\033[1;96m";  // CYAN
-    public static final String WHITE_BOLD_BRIGHT = "\033[1;97m"; // WHITE
+    public static final String BLACK_BOLD_BRIGHT = "\033[1;90m"; // BLACK
+    public static final String YELLOW_BACKGROUND_BRIGHT = "\033[0;103m";// YELLOW
+    public static final String BLUE_BACKGROUND_BRIGHT = "\033[0;104m";// BLUE
+    public static final String RED_BACKGROUND_BRIGHT = "\033[0;101m";// RED
+
 
     public static void main(String[] args) throws IOException {
         CarManagementService management = new CarManagementService();
         // load in both databases so session can continue from last time
         management.openDatabaseAvailable();
         management.openDatabaseRented();
-        //management.setTodaysRentedCars();
+        management.setTodaysRentedCars();
 
         Scanner userInput = new Scanner(System.in);
         boolean sessionRunning = true;
@@ -120,12 +101,12 @@ public class Main {
                                 System.out.println(YELLOW_BACKGROUND_BRIGHT + BLACK_BOLD_BRIGHT +"Please enter your name");
                                 String name = userInput.next();
                                 System.out.println("Please enter your age");
-                                int age  = userInput.nextInt();
+                                int age = Integer.parseInt(userInput.next());
                                 System.out.println("Please enter your Drivers Licence reference");
-                                String driversLicence = userInput.next();
+                                String driversLicence = userInput.nextLine();
                                 System.out.println("Please enter whether you would like to use credit or debit" +ANSI_RESET);
-                                String payment = userInput.next();
-                                Customer customer = new Customer(name, age, driversLicence, payment);
+                                String payment = userInput.nextLine();
+                                Customer customer = new Customer(name, age, driversLicence, payment); //making an instance of customer class
                                 boolean customerBooking = management.canCustomerBookCar(customer);
 
                                 if (customerBooking) {
@@ -142,8 +123,6 @@ public class Main {
                                     long rentalPeriod = management.rentalPeriodCalc(startDate, endDate);
                                     //management.calculateBill(carDailyRentPrice, rentalPeriod);
 
-                                } else {
-                                    System.out.println(RED_BACKGROUND_BRIGHT + "Sorry you can't book a car" +ANSI_RESET);
                                 }
                                 break;
                             case 3:
