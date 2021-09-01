@@ -41,6 +41,7 @@ public class CarManagementService {
             System.out.println(e.getMessage());
         }
     }
+    
 
     public void openDatabaseAvailable() {
         try {
@@ -55,7 +56,6 @@ public class CarManagementService {
         boolean carNotAvailable = false;
         for (Car2 car : this.availableDatabase.getCars()) {
             carNotAvailable = car.getRentalPeriods().contains(LocalDate.now());
-            System.out.println(carNotAvailable);
 
             if (carNotAvailable) {
                 Car2 newlyRentedCar = this.availableDatabase.remove(car.getRegNum());
@@ -64,6 +64,7 @@ public class CarManagementService {
             }
         }
     }
+
 
     public void closeDatabase() {
         try {
@@ -75,6 +76,7 @@ public class CarManagementService {
             System.out.println(e.getMessage());
         }
     }
+
 
     public void addNewCar() {
         Scanner userInput = new Scanner(System.in);
@@ -90,7 +92,6 @@ public class CarManagementService {
             regNum = userInput.nextLine();
             if (regNum.matches(regexRegNum)) {
                 correctRegNum = true;
-                System.out.println(correctRegNum);
             } else {
                 System.out.println(RED_BACKGROUND_BRIGHT + BLACK_BOLD_BRIGHT + "The registration number you have entered is incorrect." + ANSI_RESET);
                 System.out.println(RED_BACKGROUND_BRIGHT + BLACK_BOLD_BRIGHT + "Please enter seven characters which are only made up of numbers and letters"+ ANSI_RESET);

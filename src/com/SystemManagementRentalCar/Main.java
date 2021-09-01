@@ -28,7 +28,7 @@ public class Main {
         Scanner userInput = new Scanner(System.in);
         boolean sessionRunning = true;
         while (sessionRunning) {
-            System.out.println(BLUE_BACKGROUND_BRIGHT+ BLACK_BOLD_BRIGHT + "Select an option" + ANSI_RESET);
+            System.out.println(BLUE_BACKGROUND_BRIGHT+ BLACK_BOLD_BRIGHT + "\nSelect an option" + ANSI_RESET);
             System.out.println(BLUE_BOLD_BRIGHT + " 1. Enter Car management team section");
             System.out.println(" 2. Enter Customer section");
             System.out.println(" 3. Exit the entire session" + ANSI_RESET);
@@ -40,7 +40,7 @@ public class Main {
                     while (carManagementLoggedIn) {
                         //Car Management Team
                         sleep(1000);
-                        System.out.println(YELLOW_BACKGROUND_BRIGHT + BLACK_BOLD_BRIGHT+ "Select an option" + ANSI_RESET);
+                        System.out.println(YELLOW_BACKGROUND_BRIGHT + BLACK_BOLD_BRIGHT+ "\nSelect an option" + ANSI_RESET);
                         sleep(1000);
                         System.out.println(YELLOW_BOLD_BRIGHT + " 1. Add a new car");
                         System.out.println(" 2. View Available cars");
@@ -79,7 +79,7 @@ public class Main {
                         ArrayList<LocalDate> requestedRentalDates = management.rentalDaysCalc(startDate,
                                                                                               endDate);
 
-                        System.out.println(BLUE_BACKGROUND_BRIGHT+ BLACK_BOLD_BRIGHT+"Select an option" + ANSI_RESET);
+                        System.out.println(BLUE_BACKGROUND_BRIGHT+ BLACK_BOLD_BRIGHT+"\nSelect an option" + ANSI_RESET);
                         sleep(1000);
                         System.out.println(BLUE_BOLD_BRIGHT + " 1. View available cars");
                         System.out.println(" 2. Rent a car");
