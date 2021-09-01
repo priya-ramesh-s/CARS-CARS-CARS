@@ -1,6 +1,7 @@
 package com.SystemManagementRentalCar;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -103,9 +104,9 @@ public class Main {
                                 System.out.println("Please enter your age");
                                 int age = Integer.parseInt(userInput.next());
                                 System.out.println("Please enter your Drivers Licence reference");
-                                String driversLicence = userInput.nextLine();
+                                String driversLicence = userInput.next();
                                 System.out.println("Please enter whether you would like to use credit or debit" +ANSI_RESET);
-                                String payment = userInput.nextLine();
+                                String payment = userInput.next();
                                 Customer customer = new Customer(name, age, driversLicence, payment); //making an instance of customer class
                                 boolean customerBooking = management.canCustomerBookCar(customer);
 
@@ -119,9 +120,9 @@ public class Main {
                                     String carMake = userInput.next();
                                     System.out.println("Enter the model of the car you would like" +ANSI_RESET);
                                     String carModel = userInput.next();
-                                    management.booking(carMake, carModel, requestedRentalDates, rentalStartDate);
+                                    BigDecimal carDailyRentPrice = management.booking(carMake, carModel, requestedRentalDates, rentalStartDate);
                                     long rentalPeriod = management.rentalPeriodCalc(startDate, endDate);
-                                    //management.calculateBill(carDailyRentPrice, rentalPeriod);
+                                    management.calculateBill(carDailyRentPrice, rentalPeriod);
 
                                 }
                                 break;

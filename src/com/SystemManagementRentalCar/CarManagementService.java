@@ -188,7 +188,7 @@ public class CarManagementService {
     }
 
 
-    public void booking(String make, String model, ArrayList<LocalDate> requestedRentalDates,
+    public BigDecimal booking(String make, String model, ArrayList<LocalDate> requestedRentalDates,
                        String startDate) {
         LocalDate startRentingCar = LocalDate.parse(startDate);
 
@@ -204,6 +204,7 @@ public class CarManagementService {
             for (LocalDate requestedRentalDate : requestedRentalDates) {
                 rentCar.getRentalPeriods().add(requestedRentalDate);
             }
+            return rentCar.getRentPrice();
         } else {
             boolean carFound = false;
             for (Car2 car : this.availableDatabase.getCars()) {
@@ -217,12 +218,9 @@ public class CarManagementService {
                             }
                             System.out.println(GREEN_BACKGROUND_BRIGHT+ BLACK_BOLD_BRIGHT + "You have successfully booked a " + car.getCarMake() + " " + car.getCarModel() + " with registration number: " + car.getRegNum());
                             System.out.println("This will cost you " + car.getRentPrice() + " per day" + ANSI_RESET);
-                            break;
+                            return car.getRentPrice();
                         }
                     }
-                }
-                if (carFound) {
-                    break;
                 }
             }
 
@@ -239,12 +237,9 @@ public class CarManagementService {
                                 }
                                 System.out.println(GREEN_BACKGROUND_BRIGHT+ BLACK_BOLD_BRIGHT +  "You have successfully booked a " + car.getCarMake() + " " + car.getCarModel() + " with registration number: " + car.getRegNum());
                                 System.out.println("This will cost you " + car.getRentPrice() + " per day" + ANSI_RESET);
-                                break;
+                                return car.getRentPrice();
                             }
                         }
-                    }
-                    if (carFound) {
-                        break;
                     }
                 }
             }
@@ -252,6 +247,7 @@ public class CarManagementService {
                 System.out.println("Sorry you have either the wrong model or make.");
             }
         }
+        return null;
     }
 
 
@@ -344,11 +340,12 @@ public class CarManagementService {
     }
 
 
-//    public void calculateBill(int carDailyFee, long rentalPeriod) {
-//        float totalBill = rentalPeriod * carDailyFee;
-//        System.out.println("As you have booked this car for " + rentalPeriod + "day(s), your total bill is: ");
-//        System.out.println(totalBill);
-//    }
+    public void calculateBill(BigDecimal carDailyFee, long rentalPeriod) {
+        int rentalPeriodInt=(int) rentalPeriod;
+        BigDecimal totalBill = carDailyFee.multiply(BigDecimal.valueOf(rentalPeriodInt));
+        System.out.println("As you have booked this car for " + rentalPeriod + "day(s), your total bill is: ");
+        System.out.println("£" + totalBill);
+    }
 }
 
 
